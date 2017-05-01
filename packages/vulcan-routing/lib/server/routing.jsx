@@ -78,7 +78,8 @@ Meteor.startup(() => {
       // const context = renderContext.get();
       // context.css = req.css;
       let { html, css, ids } =  renderStatic(() => {
-        return ReactDOMServer.renderToString(app);
+        const renderedThings =  ReactDOMServer.renderToString(app);
+        return renderedThings;
       })
       // const string = html.replace('/* glamor-styles */', css);
       // console.log("CSS IS ", css, "\n");
@@ -90,9 +91,11 @@ Meteor.startup(() => {
 
     },
     htmlHook(req, res, dynamicHead, dynamicBody) {
-      const head = Helmet.rewind();
+      // .renderStatic() instead of .rewind() {helmet 3.3.0 -> 5.0.x}
+      const head = Helmet.renderStatic();
+
       return {
-        dynamicHead: `${head.title}${head.meta}${head.link}${head.script}${dynamicHead}`,
+        dynamicHead: `${head.title}${head.meta}${head.link}${head.script}${dynamicHead}${head.style}`,
         dynamicBody,
       };
     },

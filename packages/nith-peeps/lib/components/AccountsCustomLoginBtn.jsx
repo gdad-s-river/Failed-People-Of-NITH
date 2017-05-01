@@ -1,12 +1,35 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
+import LightenDarkenColor from '../Utils/lighten-color.js';
+
+// is not recursive
+function makeSameKeyDiffVal(colorObj, valMutatorFunc, ...args) {
+  let mutatedObj = {};
+  Object.keys(colorObj).forEach((key) => {
+    mutatedObj[key] = valMutatorFunc(colorObj[key], ...args);
+  })
+  return mutatedObj;
+}
+
+function valMutatorFunc(val, lightness) {
+  return LightenDarkenColor(val, lightness)
+}
 
 const CustomLoginBtn = glamorous.button(
   {
-    border: "none"
+    border: "none",
+    fontFamily: `'Josefin Sans', Geneva, 'sans-serif'`,
+    width: "240px",
+    padding: "15px",
+    color: "#fff",
+    fontSize: "1.5rem",
+    marginBottom: "15px",
+    boxShadow: "0px 0px 15px -2px rgba(0, 0, 0, 0.75)",
+    cursor: "pointer"
   },
-  ({backgroundColor}) => ({
-    backgroundColor: backgroundColor ? backgroundColor: "white"
+  ({backgroundColor, hoverBackgroundColor}) => ({
+    backgroundColor: backgroundColor ? backgroundColor: "white",
+    ":hover" : {backgroundColor: hoverBackgroundColor }
   })
 )
 
@@ -29,17 +52,21 @@ export default class AccountsCustomLoginBtn extends Component {
       "Google": "#db4437"
     };
 
+    const hoverBackgroundMapping = makeSameKeyDiffVal(backgroundMapping, valMutatorFunc, 20 )
 
     return type === 'link' ?
       <a href="#" className={ className } onClick={ onClick } style={{marginRight: '10px'}}>{ label }</a> :
-      <CustomLoginBtn
-        backgroundColor={backgroundMapping[label]}
-        className= {`${className}`}
-        type={ type }
-        disabled={ disabled }
-        onClick={ onClick }>
-        { label }
-      </CustomLoginBtn>;
+      <div>
+        <CustomLoginBtn
+          backgroundColor={backgroundMapping[label]}
+          hoverBackgroundColor={hoverBackgroundMapping[label]}
+          className= {`${className}`}
+          type={ type }
+          disabled={ disabled }
+          onClick={ onClick }>
+          { `Sign in with ${label}` }
+        </CustomLoginBtn>
+      </div>
   }
 }
 

@@ -1,0 +1,2 @@
+- Download all the fonts on the server locally, so that it is server side rendered properly
+- Ripple Effect on Sign in Buttons

@@ -1,23 +1,21 @@
 
-########### NIT Peeps ###############
-#####################################
+# see http://docs.vulcanjs.org/packages
 
-# ------------Core--------------------
 vulcan:core
-# ------------------------------------
 
-# --------------Language--------------
+############ Language Packages ############
+
 vulcan:i18n-en-us
-# ------------------------------------
 
-# --------------Accounts--------------
+############ Accounts Packages ############
+
+accounts-password
 accounts-twitter
-accounts-facebook
-# ------------------------------------
+# accounts-facebook
 
-# --------------nith-peeps------------
-nith-peeps
-# -------------------------------------
+############ Your Packages ############
 
-#####################################
-#####################################
+# example-movies
+example-instagram
+# example-forum
+# example-customization

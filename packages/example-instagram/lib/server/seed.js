@@ -1,6 +1,6 @@
 /*
 
-Seed the database with some dummy content. 
+Seed the database with some dummy content.
 
 */
 
@@ -24,19 +24,19 @@ Pics.addField(dummyFlag);
 Comments.addField(dummyFlag);
 
 var createPic = function (imageUrl, createdAt, body, username) {
-  
+
   const user = Users.findOne({username: username});
 
   const pic = {
     createdAt,
     imageUrl: `http://vulcanjs.org/photos/${imageUrl}`,
-    body, 
+    body,
     isDummy: true,
     userId: user._id
   };
 
   newMutation({
-    collection: Pics, 
+    collection: Pics,
     document: pic,
     currentUser: user,
     validate: false
@@ -56,7 +56,7 @@ var createComment = function (username, body, picImageUrl) {
   };
 
   newMutation({
-    collection: Comments, 
+    collection: Comments,
     document: comment,
     currentUser: user,
     validate: false
@@ -70,7 +70,7 @@ const createUser = function (username, email) {
     isDummy: true
   };
   newMutation({
-    collection: Users, 
+    collection: Users,
     document: user,
     validate: false
   });
