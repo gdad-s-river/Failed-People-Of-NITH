@@ -1,6 +1,6 @@
 /*
 
-Seed the database with some dummy content. 
+Seed the database with some dummy content.
 
 */
 
@@ -62,7 +62,7 @@ const createUser = function (username, email) {
     isDummy: true
   };
   newMutation({
-    collection: Users, 
+    collection: Users,
     document: user,
     validate: false
   });
@@ -86,7 +86,7 @@ Meteor.startup(function () {
       newMutation({
         action: 'movies.new',
         collection: Movies,
-        document: document, 
+        document: document,
         currentUser: currentUser,
         validate: false
       });

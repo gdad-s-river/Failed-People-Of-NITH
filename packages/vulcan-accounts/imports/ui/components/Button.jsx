@@ -14,7 +14,7 @@ export class AccountsButton extends React.Component {
       onClick
     } = this.props;
 
-    return type === 'link' ? 
+    return type === 'link' ?
       <a href="#" className={ className } onClick={ onClick } style={{marginRight: '10px'}}>{ label }</a> :
       <Button
         style={{marginRight: '10px'}}

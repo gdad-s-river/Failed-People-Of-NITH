@@ -3,7 +3,9 @@ import { runCallbacks, runCallbacksAsync, Utils } from 'meteor/vulcan:lib'; // i
 
 function onCreateUserCallback (options, user) {
 
+  console.log(options);
   const schema = Users.simpleSchema()._schema;
+
 
   delete options.password; // we don't need to store the password digest
   delete options.username; // username is already in user object
@@ -36,8 +38,6 @@ function onCreateUserCallback (options, user) {
     }
   });
 
-  console.log(user)
-  
   user = runCallbacks("users.new.sync", user);
 
   runCallbacksAsync("users.new.async", user);

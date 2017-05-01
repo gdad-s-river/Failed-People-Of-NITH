@@ -63,7 +63,7 @@ function generateSSRData(options, req, res, renderProps) {
     }
 
     if (options.postRender) {
-      options.postRender(req, res);
+      options.postRender(req, res, app);
     }
 
     css = req.css;
