@@ -17,7 +17,7 @@ const AccountsLoginWrapper = glamorous.div({
 const CheckUserLoggedIn = ({ currentUser, loading }) => {
 
 return(
-  <div className="comments-list">
+  <div className="container-to-rename-name">
     <Helmet>
       <title>Login to People of NITH</title>
       <meta charSet="UTF-8" />
