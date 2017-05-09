@@ -12,10 +12,7 @@ Package.onUse(function (api) {
     // vulcan packages
     'vulcan:forms',
     'vulcan:accounts',
-    'vulcan:forms-upload',
-
-    // third-party packages
-    'fourseven:scss@4.5.0',
+    'vulcan:forms-upload'
 
   ]);
 

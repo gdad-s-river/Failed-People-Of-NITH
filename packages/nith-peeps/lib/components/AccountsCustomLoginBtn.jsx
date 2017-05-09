@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
 import LightenDarkenColor from '../Utils/lighten-color.js';
+import { browserHistory } from 'react-router';
 
 // is not recursive
 function makeSameKeyDiffVal(colorObj, valMutatorFunc, ...args) {
@@ -33,6 +34,7 @@ const CustomLoginBtn = glamorous.button(
   })
 )
 
+
 export default class AccountsCustomLoginBtn extends Component {
   render () {
 
@@ -49,10 +51,11 @@ export default class AccountsCustomLoginBtn extends Component {
       "Twitter": "#1da1f2",
       "Facebook": "#3b5998",
       "Linkedin": "#0077b5",
-      "Google": "#db4437"
+      "Google": "#db4437",
+      "Sign out": "#ffdb00"
     };
 
-    const hoverBackgroundMapping = makeSameKeyDiffVal(backgroundMapping, valMutatorFunc, 20 )
+    const hoverBackgroundMapping = makeSameKeyDiffVal(backgroundMapping, valMutatorFunc, 20 );
 
     return type === 'link' ?
       <a href="#" className={ className } onClick={ onClick } style={{marginRight: '10px'}}>{ label }</a> :
@@ -64,7 +67,7 @@ export default class AccountsCustomLoginBtn extends Component {
           type={ type }
           disabled={ disabled }
           onClick={ onClick }>
-          { `Sign in with ${label}` }
+         { label !== "Sign out" ?  `Sign in with ${label}` : label }
         </CustomLoginBtn>
       </div>
   }

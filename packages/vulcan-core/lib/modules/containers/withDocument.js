@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { getFragment, getFragmentName } from 'meteor/vulcan:core';
 
 export default function withDocument (options) {
-  
   const { collection, pollInterval = 20000 } = options,
         queryName = options.queryName || `${collection.options.collectionName}SingleQuery`,
         fragment = options.fragment || getFragment(options.fragmentName),

@@ -79,7 +79,7 @@ const meteorClientConfig = networkInterfaceConfig => ({
   networkInterface: createMeteorNetworkInterface(networkInterfaceConfig),
   queryDeduplication: true, // http://dev.apollodata.com/core/network.html#query-deduplication
   addTypename: true,
- 
+
   // Default to using Mongo _id, must use _id for queries.
   dataIdFromObject(result) {
     if (result._id && result.__typename) {
