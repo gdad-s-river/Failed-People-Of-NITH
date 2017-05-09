@@ -3,6 +3,7 @@
 - (Completely Optional): Make Image Behave Pretty with CSS Filters
 - Replace select inputs with react-select
 - Replace PropTypes and create-react-class imports with separate modules
+- Add a delete button for invalidation flash messages.
 ---
 
 Required User Fields :

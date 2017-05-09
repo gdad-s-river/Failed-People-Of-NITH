@@ -20,7 +20,7 @@ const UsersProfile = (props) => {
     const user = props.document;
 
     const terms = {view: "userPosts", userId: user._id};
-
+    console.log(user);
     return (
       <div className="page users-profile">
         <HeadTags url={Users.getProfileUrl(user, true)} title={Users.getDisplayName(user)} />
@@ -29,6 +29,11 @@ const UsersProfile = (props) => {
         <ul>
           {user.twitterUsername ? <li><a href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a></li> : null }
           {user.website ? <li><a href={user.website}>{user.website}</a></li> : null }
+          <li><a href={user.linkedinId}>{user.linkedinId}</a></li>
+          <li>{user.rollNoOrRegNo}</li>
+          <li>{user.branch}</li>
+          <li>{user.classOf}</li>
+          <li>{user.levelOfDegree}</li>
           <Components.ShowIf check={Users.options.mutations.edit.check} document={user}>
             <li><Link to={Users.getEditUrl(user)}><FormattedMessage id="users.edit_account"/></Link></li>
           </Components.ShowIf>

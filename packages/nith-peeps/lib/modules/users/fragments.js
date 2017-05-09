@@ -23,6 +23,11 @@ registerFragment(`
     username
     displayName
     emailHash
+    linkedinId
+    branch
+    classOf
+    rollNoOrRegNo
+    levelOfDegree
   }
 `);
 
@@ -37,6 +42,7 @@ registerFragment(`
     twitterUsername
     website
     groups
+    phone
     # karma
     # vulcan:posts
     # postCount
