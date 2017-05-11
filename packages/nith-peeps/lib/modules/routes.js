@@ -6,7 +6,7 @@ import UsersAccount from '../components/users/UsersAccount.jsx';
 import UsersSingle from '../components/users/UsersSingle.jsx';
 
 addRoute([
-  { name: 'home', path: '/', component: CheckUserLoggedIn },
+  { name: 'home', path: '/', component: CheckUserLoggedIn }, 
   { name: 'complete.profile', path: "/complete-profile", component: UsersProfileCheckWrapper },
   { name:'users.edit', path:'users/:slug/edit', component: UsersAccount },
   { name:'users.single', path:'users/:slug', component: UsersSingle }
