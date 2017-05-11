@@ -20,7 +20,8 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
       const fieldsToComplete = _.filter(Users.getRequiredFields(), fieldName => {
         return !userMustCompleteFields[fieldName]
       })
-
+      
+      // console.log(fieldsToComplete);
       if(fieldsToComplete.length) {
         return (
           <main>

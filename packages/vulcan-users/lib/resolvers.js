@@ -18,6 +18,7 @@ const specificResolvers = {
           });
         }
       }
+      // console.log("users from vulcan:users/lib/resolvers's currentUser Query ", user);
       return user;
     },
   },

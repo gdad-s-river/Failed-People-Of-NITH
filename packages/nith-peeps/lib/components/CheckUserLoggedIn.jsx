@@ -1,7 +1,7 @@
 // TODO: abstract away link tags in an object
 
 import React, { PropTypes, Component } from 'react';
-import { Components, withCurrentUser, Loading, getRenderContext, getFragment } from 'meteor/vulcan:core';
+import { Components, withCurrentUser, withDocument, Loading, getRenderContext, getFragment } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
 import Helmet from 'react-helmet';
 import glamorous from 'glamorous';
@@ -10,61 +10,7 @@ import {oneLine} from 'common-tags';
 import { Accounts } from 'meteor/vulcan:accounts';
 
 import Search from './Search.jsx';
-
-
-
-const hasCompletedProfile = function hasCompletedProfile(user) {
-  return Users.hasCompletedProfile(user);
-}
-
- // const userData = apolloClient.readFragment({
- //   id: currentUserId,
- //   fragment: getFragment('UsersCurrent')
- // })
-
-Accounts.ui.config({
-   onSignedInHook: () => {
-     console.log("arihantarihantarihant")
-    //  // throwing Meteor setTimeout error for some reasons
-    //  // saying gql is not a function
-    //  // possible place of default : this very hook function
-    //  let gql = require("graphql-tag");
-
-    //  // route check should happen here;
-    //  // if(hasCompleteProfile) => directory else profile complete
-    //  //
-
-    //  const currentUserId = Users.getUser()._id;
-    //  const apolloClient = getRenderContext().apolloClient;
-
-    //  console.log(`User${currentUserId}`)
-
-    // //  let blala = apolloClient.readQuery({
-    // //    query: gql`
-    // //     {
-    // //       currentUser {
-    // //         _id
-    // //         displayName
-    // //       }
-    // //     }
-    // //    `
-    // //  })
-
-    //   let blala = apolloClient.readFragment({
-    //     _id: `User${currentUserId}`,
-    //     fragment: getFragment('UsersCurrent')
-    //   })
-    //  console.log(blala);
-
-    /*
-      Do not check and assume that the profile is not complete for now
-      until sasha figures out the fragment from apolloClient.readFragment
-    */
-    
-    
-   }
-})
-
+import gql from 'graphql-tag';
 
 
 const AccountsLoginWrapper = glamorous.div({
@@ -78,10 +24,11 @@ const AccountsLoginWrapper = glamorous.div({
 const AccountsSignOutWrapper = glamorous.div({
   
 });
-const CheckUserLoggedIn = ({ currentUser, loading }) => {
 
-// console.log(currentUser);
-
+const CheckUserLoggedIn = ({ currentUser, loading, document, ...props }) => {
+  // console.log("currentUser ", currentUser);
+  console.log("document ", document);
+  console.log("props are ", props);
 
   return(
     <div className="container-to-rename-name">
@@ -142,12 +89,40 @@ const CheckUserLoggedIn = ({ currentUser, loading }) => {
  }
 
 
+// CheckUserLoggedIn.propTypes = {
+//   currentUser: PropTypes.object
+// }
 
-
-
-// const options = {
-//   collection: Comments,
-//   fragmentName: 'CommentsItemFragment',
+// CheckUserLoggedIn.contextTypes = {
+//   intl: intlShape
 // };
 
-export default (withCurrentUser(CheckUserLoggedIn));
+// const mustCompleteFragment = gql`
+//   fragment UserMustCompleteFragment on User {
+//     _id
+//     ${Users.getRequiredFields().join("\n")}
+//   }
+// `
+
+const options = {
+  collection: Users,
+  queryName: 'usersSingleQuery',
+  fragmentName: 'UsersProfile',
+};
+
+
+/*
+  experimenting
+*/
+
+const CheckUserLoggedInWithDoc = withDocument(options)(CheckUserLoggedIn);
+
+const LetsWrapThis = props =>
+  <div className="lets-wrap-this">
+    <CheckUserLoggedInWithDoc currentUser={props.currentUser} documentId={props.currentUser && props.currentUser._id} />
+  </div>
+
+
+export default withCurrentUser(LetsWrapThis);
+
+
