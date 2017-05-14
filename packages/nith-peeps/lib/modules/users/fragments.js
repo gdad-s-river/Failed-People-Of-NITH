@@ -23,18 +23,27 @@ registerFragment(`
     username
     displayName
     emailHash
+  }
+`);
+
+
+registerFragment(`
+  fragment UsersMustHaveFields on User {
+    _id
     linkedinId
     branch
     classOf
     rollNoOrRegNo
     levelOfDegree
+    email
   }
-`);
+`)
 
 registerFragment(`
   fragment UsersProfile on User {
     # vulcan:users
     ...UsersMinimumInfo
+    ...UsersMustHaveFields
     createdAt
     isAdmin
     bio

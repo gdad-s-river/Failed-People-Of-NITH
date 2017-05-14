@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
-import LightenDarkenColor from '../Utils/lighten-color.js';
+import LightenDarkenColor from '../modules/utils/lighten-color.js';
 import { browserHistory } from 'react-router';
 
 // is not recursive

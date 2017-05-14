@@ -1,70 +1,23 @@
-// TODO: abstract away link tags in an object
-
 import React, { PropTypes, Component } from 'react';
-import { Components, withCurrentUser, Loading, getRenderContext, getFragment } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
-import Helmet from 'react-helmet';
+import { withDocument, Components, registerComponent, withMessages } from 'meteor/vulcan:core';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { gql } from 'react-apollo';
+import { browserHistory } from 'react-router';
 import glamorous from 'glamorous';
+import Helmet from 'react-helmet';
 import {oneLine} from 'common-tags';
-
-import { Accounts } from 'meteor/vulcan:accounts';
-
-import Search from './Search.jsx';
-
-
-
-const hasCompletedProfile = function hasCompletedProfile(user) {
-  return Users.hasCompletedProfile(user);
-}
-
- // const userData = apolloClient.readFragment({
- //   id: currentUserId,
- //   fragment: getFragment('UsersCurrent')
- // })
-
-Accounts.ui.config({
-   onSignedInHook: () => {
-     console.log("arihantarihantarihant")
-    //  // throwing Meteor setTimeout error for some reasons
-    //  // saying gql is not a function
-    //  // possible place of default : this very hook function
-    //  let gql = require("graphql-tag");
-
-    //  // route check should happen here;
-    //  // if(hasCompleteProfile) => directory else profile complete
-    //  //
-
-    //  const currentUserId = Users.getUser()._id;
-    //  const apolloClient = getRenderContext().apolloClient;
-
-    //  console.log(`User${currentUserId}`)
-
-    // //  let blala = apolloClient.readQuery({
-    // //    query: gql`
-    // //     {
-    // //       currentUser {
-    // //         _id
-    // //         displayName
-    // //       }
-    // //     }
-    // //    `
-    // //  })
-
-    //   let blala = apolloClient.readFragment({
-    //     _id: `User${currentUserId}`,
-    //     fragment: getFragment('UsersCurrent')
-    //   })
-    //  console.log(blala);
-
-    /*
-      Do not check and assume that the profile is not complete for now
-      until sasha figures out the fragment from apolloClient.readFragment
-    */
-    
-    
-   }
-})
-
+import equal from 'deep-equal';
+// import { Accounts } from 'meteor/vulcan:accounts';
+//
+// Accounts.ui.config({
+//   onSignedInHook: () => {
+//     browserHistory.replace("/search");
+//   },
+//   onSignedOutHook: () => {
+//
+//   }
+// });
 
 
 const AccountsLoginWrapper = glamorous.div({
@@ -75,79 +28,108 @@ const AccountsLoginWrapper = glamorous.div({
   alignItems: "center",
 })
 
-const AccountsSignOutWrapper = glamorous.div({
-  
-});
-const CheckUserLoggedIn = ({ currentUser, loading }) => {
+class CheckUserLoggedIn extends Component {
+  // constructor() {
+  //   super();
+  //   // this.state = {
+  //   //   fieldsToFill: false
+  //   // }
+  // }
 
-// console.log(currentUser);
+  componentDidMount() {
+    console.log("componentDidMount fired");
+    console.log("componentDidMount:checkuser: ", this.props);
+    const userMustCompleteFields = this.props.document;
+    if(!this.props.currentUser || this.props.loading) {
+      console.log("no user or loading");
+      // return <div>current user or loading</div>;
+    } else {
+        // return fields that are required by the schema but haven't been filled out yet
+        const fieldsToComplete = _.filter(Users.getRequiredFields(), fieldName => {
+          return !userMustCompleteFields[fieldName]
+        })
 
-
-  return(
-    <div className="container-to-rename-name">
-      <Helmet>
-        <title>Login to People of NITH</title>
-        <meta charSet="UTF-8" />
-        <meta name="theme-color" content="#9aefea" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="People of NITH" />
-        <meta
-          name="keywords"
-          content={
-            oneLine`
-              Welcome to the one stop
-              of finding any NITHian
-              ever graduated.
-            `
-          }
-        />
-        <meta name="author" content="Arihant Verma" />
-        <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-        <link rel="canonical" href="http://peopleofnith.com/" />
-        <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Love+Ya+Like+A+Sister" rel="stylesheet" />
-        {
-          !currentUser ? 
-            <style type="text/css">{`
-              body {
-                background-image: url('/packages/nith-peeps/lib/static/nith.jpg');
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
-                overflow-y: hidden;
-              }
-          `}</style> : ""
+        if(fieldsToComplete.length) {
+          // this.setState({
+          //   fieldsToComplete: true
+          // })
+          browserHistory.push("/complete-profile")
+        } else {
+          return null
         }
-       </Helmet>
+    }
+  }
 
-        {loading ?
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("previous props ", this.props);
+  //   console.log("nextProps ", nextProps);
+  //
+  //   if(!equal(this.props.currentUser, nextProps.currentUser)) {
+  //     console.log("not same");
+  //     const userMustCompleteFields = nextProps.document;
+  //     if(!nextProps.currentUser) {
+  //       console.log("no user or loading");
+  //       // return <div>current user or loading</div>;
+  //     } else {
+  //       console.log("yes user and not loading")
+  //         // return fields that are required by the schema but haven't been filled out yet
+  //         const fieldsToComplete = _.filter(Users.getRequiredFields(), fieldName => {
+  //           return !userMustCompleteFields[fieldName]
+  //         })
+  //
+  //         console.log(fieldsToComplete.length);
+  //
+  //         if(fieldsToComplete.length) {
+  //           // this.setState({
+  //           //   fieldsToComplete: true
+  //           // })
+  //           console.log("you haven't completed everything baby");
+  //           browserHistory.push("/complete-profile");
+  //         } else {
+  //           console.log("user profile complete");
+  //         }
+  //     }
+  //   } else {
+  //     console.log("same")
+  //     return false;
+  //   }
+  // }
 
-          <Loading /> :
+  // shouldComponentUpdate(nextProps){
+  //   return false;
+  // }
 
-          <div className="">
-            {currentUser ?
-              <div>
-                <Search />
-                <Components.AccountsLoginForm/>
-              </div> :
-                <AccountsLoginWrapper>
-                {/*Rename this wrapper to AccountsLoginStylesWrapper*/}
-                    <Components.AccountsLoginForm/>
-                </AccountsLoginWrapper>
-            }
-          </div>
-        }
-      </div>
-    )
- }
+  render() {
+    // console.log("render fired")
+    return <div></div>
+  };
+}
+
+CheckUserLoggedIn.propTypes = {
+  currentUser: PropTypes.object
+}
+
+CheckUserLoggedIn.contextTypes = {
+  intl: intlShape
+};
+
+CheckUserLoggedIn.displayName = "CheckUserLoggedIn";
+
+const mustCompleteFragment = gql`
+  fragment UserMustCompleteFragment1 on User {
+    _id
+    ${Users.getRequiredFields().join("\n")}
+  }
+`
+
+const options = {
+  collection: Users,
+  queryName: 'usersMustCompleteQuery',
+  fragment: mustCompleteFragment
+}
 
 
+// registerComponent('UsersProfileCheck', UsersProfileCheck, withMessages, [withDocument, options]);
+// export default UsersProfileCheck;
 
-
-
-// const options = {
-//   collection: Comments,
-//   fragmentName: 'CommentsItemFragment',
-// };
-
-export default (withCurrentUser(CheckUserLoggedIn));
+export default withDocument(options)(withMessages(CheckUserLoggedIn))
