@@ -22,6 +22,7 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
       })
 
       if(fieldsToComplete.length) {
+        console.log("usersprofilecheck: render: ", userMustCompleteFields);
         return (
           <main>
             <FormattedMessage id="users.complete_profile" />
@@ -46,7 +47,12 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
           </main>
         )
       } else {
-        return null;
+        return (
+          <div>
+          <a className="complete-profile-logout"
+            onClick={ () => Meteor.logout(() => window.location.reload() ) }>Sign out </a>
+          </div>
+        )
       }
   }
 };

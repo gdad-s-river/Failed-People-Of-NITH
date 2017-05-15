@@ -9,8 +9,8 @@ import Users from 'meteor/vulcan:users';
 import withMustComplete from '../containers/withMustComplete.js';
 import { browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
-import CheckUserLoggedIn from '../CheckUserLoggedIn.jsx';
-
+import MustCompleteCheckRedir from '../MustCompleteCheckRedir.jsx';
+import { Link } from 'react-router'
 // console.log(browserHistory);
 
 
@@ -47,12 +47,18 @@ class CustomLayout extends Component  {
     // })
     return (
       <div className="wrapper" id="wrapper">
+        <header className="header">
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/complete-profile">Complete Profile</Link></li>
+            <li><Link to="/search">Search</Link></li>
+            <li><Link to="/users/arihant-verma">Profile</Link></li>
+            <li><Link to="/users/arihant-verma/edit">Profile Edit</Link></li>
+          </ul>
+        </header>
         { this.props.currentUser ?
-          <div>
-            <CheckUserLoggedIn currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
-            {/* <div>Document ID: {</div> */}
-          </div>
-          : ""
+            <MustCompleteCheckRedir currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
+          : null
         }
 
         {this.props.children}

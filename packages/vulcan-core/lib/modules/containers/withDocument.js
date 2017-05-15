@@ -20,7 +20,7 @@ export default function withDocument (options) {
     ${fragment}
   `, {
     alias: 'withDocument',
-    
+
     options(ownProps) {
       return {
         variables: { documentId: ownProps.documentId, slug: ownProps.slug },

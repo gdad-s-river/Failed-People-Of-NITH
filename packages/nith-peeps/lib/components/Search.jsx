@@ -30,18 +30,20 @@ class Search extends Component {
   }
 
 }
-
-const mustCompleteFragment = gql`
-  fragment UsersMustCompleteFragment1 on User {
-    _id
-    ${Users.getRequiredFields().join('\n')}
-  }
-`
-
-const options = {
-  collection: Users,
-  queryName: 'usersMustCompleteQuery',
-  fragment: mustCompleteFragment,
-};
-
-export default withMustComplete(Search);
+//
+// const mustCompleteFragment = gql`
+//   fragment UsersMustCompleteFragment2 on User {
+//     _id
+//     ${Users.getRequiredFields().join('\n')}
+//   }
+// `
+//
+// const options = {
+//   collection: Users,
+//   queryName: 'usersMustCompleteQuery',
+//   fragment: mustCompleteFragment,
+// };
+//
+// export default withMustComplete(Search);
+//
+export default Search;
