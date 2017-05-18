@@ -1,49 +1,67 @@
-import React, {Component} from 'react';
-import Users from 'meteor/vulcan:users';
-import { browserHistory } from 'react-router';
-import gql from 'graphql-tag';
-import withMustComplete from './containers/withMustComplete.js';
+import { registerComponent } from 'meteor/vulcan:core';
+import React, { PropTypes, Component } from 'react';
+import { intlShape } from 'react-intl';
+import Formsy from 'formsy-react';
+import FRC from 'formsy-react-components';
+import { withRouter } from 'react-router'
 
-class Search extends Component {
+const Input = FRC.Input;
 
-  // componentDidMount() {
-  //   // console.log("Search Component Did Mount ", this.props);
-  //   const {currentUserWithMustFields} = this.props;
-  //
-  //   console.log("componentDidMount: search: currentUserWithMustFields ", this.props);
-  //
-  //   if (!!currentUserWithMustFields && !Users.hasCompletedProfile(currentUserWithMustFields)) {
-  //     browserHistory.push("/complete-profile");
-  //     // console.log("Not completed bro");
-  //   } else {
-  //     // browserHistory.push("/");
-  //     // console.log("oh yeah it's completed");
-  //     // browserHistory.push("/");
-  //   }
-  // }
+// see: http://stackoverflow.com/questions/1909441/jquery-keyup-delay
+const delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 
-  render() {
-    // console.log("render: search: currentUserWithMustFields", this.props);
-    return (
-      <div>Search Component</div>
-    )
+class Search extends Component{
+
+  constructor(props) {
+    super(props);
+    this.search = this.search.bind(this);
+    this.state = {
+      search: props.router.location.query.query || ''
+    }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      search: this.props.router.location.query.query || ''
+    });
+  }
+
+  search(data) {
+
+    const router = this.props.router;
+    const query = data.searchQuery === '' ? router.location.query : {...router.location.query, query: data.searchQuery};
+
+    delay(() => {
+      router.push({pathname: "/search", query: query});
+    }, 700 );
+
+  }
+
+  render() {
+    return (
+      <div className="search-form">
+        <Formsy.Form onChange={this.search}>
+          <Input
+            name="searchQuery"
+            value={this.state.search}
+            placeholder={this.context.intl.formatMessage({id: "posts.search"})}
+            type="text"
+            layout="elementOnly"
+          />
+        </Formsy.Form>
+      </div>
+    )
+  }
 }
-//
-// const mustCompleteFragment = gql`
-//   fragment UsersMustCompleteFragment2 on User {
-//     _id
-//     ${Users.getRequiredFields().join('\n')}
-//   }
-// `
-//
-// const options = {
-//   collection: Users,
-//   queryName: 'usersMustCompleteQuery',
-//   fragment: mustCompleteFragment,
-// };
-//
-// export default withMustComplete(Search);
-//
-export default Search;
+
+Search.contextTypes = {
+  intl: intlShape
+};
+
+export default withRouter(Search);

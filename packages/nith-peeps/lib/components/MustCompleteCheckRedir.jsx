@@ -74,7 +74,7 @@ class MustCompleteCheckRedir extends Component {
     // console.log("mustcompletecheckredir:render:requiredfields: ", Users.getRequiredFields().join("\n"));
         const userMustCompleteFields = this.props.document;
 
-        console.log("mustcompletecheckredir:userMustCompleteFields(document) are ", userMustCompleteFields);
+        // console.log("mustcompletecheckredir:userMustCompleteFields(document) are ", userMustCompleteFields);
         if(!this.props.currentUser || this.props.loading) {
           return <div>current user or loading</div>;
         } else {
@@ -83,6 +83,7 @@ class MustCompleteCheckRedir extends Component {
               return !userMustCompleteFields[fieldName]
             })
 
+            // console.log("fieldsToComplete: mustcompletecomp: ", fieldsToComplete)
             if(fieldsToComplete.length) {
               if (userMustCompleteFields) {
                 return <Redirect route="/complete-profile"/>

@@ -22,7 +22,7 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
       })
 
       if(fieldsToComplete.length) {
-        console.log("usersprofilecheck: render: ", userMustCompleteFields);
+        // console.log("usersprofilecheck: render: ", userMustCompleteFields);
         return (
           <main>
             <FormattedMessage id="users.complete_profile" />

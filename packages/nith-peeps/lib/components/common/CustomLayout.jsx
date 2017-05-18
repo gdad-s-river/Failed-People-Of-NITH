@@ -3,6 +3,9 @@
 // import UsersProfileCheck from '../users/UsersProfileCheck.jsx';
 // import FlashMessages from './FlashMessages.jsx';
 
+
+//--------TODO: Convert it into dumb component -------------//
+
 import { withCurrentUser } from 'meteor/vulcan:core';
 import gql from 'graphql-tag';
 import Users from 'meteor/vulcan:users';
@@ -48,7 +51,10 @@ class CustomLayout extends Component  {
     return (
       <div className="wrapper" id="wrapper">
         <header className="header">
-          <ul>
+          <ul style={{
+            display: "flex",
+            justifyContent: "space-around"
+          }}>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/complete-profile">Complete Profile</Link></li>
             <li><Link to="/search">Search</Link></li>

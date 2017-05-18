@@ -12,6 +12,7 @@ const specificResolvers = {
       if (context && context.userId) {
         user = context.Users.findOne(context.userId);
 
+        console.log(user);
         if (user.services) {
           Object.keys(user.services).forEach((key) => {
             user.services[key] = {}
@@ -35,9 +36,12 @@ const resolvers = {
 
       // get selector and options from terms and perform Mongo query
       let {selector, options} = Users.getParameters(terms);
+      // console.log("resolvers: users: terms: ", terms); 
+        console.log("users: resolvers: selector= ", selector);
       options.limit = (terms.limit < 1 || terms.limit > 100) ? 100 : terms.limit;
       options.skip = terms.offset;
       const users = Users.find(selector, options).fetch();
+      // console.log("resolvers: users: foundusers: ", users);
 
       // restrict documents fields
       const restrictedUsers = Users.restrictViewableFields(currentUser, Users, users);
