@@ -138,6 +138,15 @@ let fieldSchemaMapping = {
     insertableBy: ["members"],
     editableBy: ["members"],
     viewableBy: ["members"]
+  },
+  currentUniCompOccu: {
+    type: String,
+    optional: true,
+    mustComplete: true,
+    max: 20,
+    insertableBy: ["members"],
+    editableBy: ["members"],
+    viewableBy: ["members"]
   }
     
 }

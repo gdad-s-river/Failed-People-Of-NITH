@@ -59,7 +59,7 @@ const LoginScreen = ({currentUser, loading}) => {
   return (
     <div className="">
         <div>
-          { currentUser ? <div> Okay Baby You are already logged in</div>: "" }
+          {/*{ currentUser ? <div> Okay Baby You are already logged in</div>: "" }*/}
           <Header />
           <AccountsLoginWrapper>
           {/*Rename this wrapper to AccountsLoginStylesWrapper*/}

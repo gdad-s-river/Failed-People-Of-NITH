@@ -47,12 +47,7 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
           </main>
         )
       } else {
-        return (
-          <div>
-          <a className="complete-profile-logout"
-            onClick={ () => Meteor.logout(() => window.location.reload() ) }>Sign out </a>
-          </div>
-        )
+        return null;
       }
   }
 };

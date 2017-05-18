@@ -14,8 +14,16 @@ import { browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import MustCompleteCheckRedir from '../MustCompleteCheckRedir.jsx';
 import Nav from './Nav.jsx';
-// console.log(browserHistory);
+import glamorous from 'glamorous';
 
+const StyledNav = glamorous(Nav)({
+  position: "fixed",
+  top: 0,
+  width: "100%",
+  margin: 0,
+  right: 0,
+  left: 0
+})
 
 import React, { PropTypes, Component } from 'react';
 
@@ -50,7 +58,7 @@ class CustomLayout extends Component  {
     // })
     return (
       <div className="wrapper" id="wrapper">
-        <Nav />
+        {this.props.currentUser ? <StyledNav currentUser={this.props.currentUser} /> :  null }
         { this.props.currentUser ?
             <MustCompleteCheckRedir currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
           : null
