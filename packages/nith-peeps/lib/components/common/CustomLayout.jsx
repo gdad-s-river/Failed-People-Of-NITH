@@ -13,7 +13,7 @@ import withMustComplete from '../containers/withMustComplete.js';
 import { browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import MustCompleteCheckRedir from '../MustCompleteCheckRedir.jsx';
-import { Link } from 'react-router'
+import Nav from './Nav.jsx';
 // console.log(browserHistory);
 
 
@@ -50,18 +50,7 @@ class CustomLayout extends Component  {
     // })
     return (
       <div className="wrapper" id="wrapper">
-        <header className="header">
-          <ul style={{
-            display: "flex",
-            justifyContent: "space-around"
-          }}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/complete-profile">Complete Profile</Link></li>
-            <li><Link to="/search">Search</Link></li>
-            <li><Link to="/users/arihant-verma">Profile</Link></li>
-            <li><Link to="/users/arihant-verma/edit">Profile Edit</Link></li>
-          </ul>
-        </header>
+        <Nav />
         { this.props.currentUser ?
             <MustCompleteCheckRedir currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
           : null

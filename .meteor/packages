@@ -18,6 +18,7 @@ vulcan:i18n-en-us
 # --------------Accounts--------------
 accounts-twitter
 accounts-facebook
+accounts-google
 # ------------------------------------
 
 # --------------nith-peeps------------
