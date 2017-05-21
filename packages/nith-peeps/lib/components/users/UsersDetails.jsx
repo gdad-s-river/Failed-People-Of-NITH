@@ -6,23 +6,42 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import Bold from '../style/Bold.jsx';
 import UsersAvatar from './UsersAvatar';
+import {Utils} from 'meteor/vulcan:core';
 
 import glamorous from 'glamorous';
 
-function getBoldedLabels() {
-  const labelStrings = new Set([
-    "Twitter Handle",
-    "Facebook Profile",
-    "Website",
-    "Linkedin ID",
-    "Roll No",
-    "Branch",
-    "Graduating Year",
-    "Degree Type",
-    "Company/University",
-    "Bio"
-  ])
+const labelStrings = new Set([
+  "Twitter Handle",
+  "Facebook Profile",
+  "Website",
+  "Linkedin ID",
+  "Roll No",
+  "Branch",
+  "Graduating Year",
+  "Degree Type",
+  "Company Or University",
+  "Bio"
+])
+
+
+const LabelComponents = {};
+
+const BoldSpanComponent = ({className, text, ...props}) => {
+  const StyledSpan = glamorous.span({
+    fontWeight: props.fontWeight
+  })
+  return (
+    <StyledSpan>{text}: </StyledSpan>
+  )
 }
+
+for (let label of labelStrings) {
+  const noSpaceLabel = label.replace(/\s/g,'');
+  LabelComponents[noSpaceLabel] = () => {
+    return <BoldSpanComponent text={label} fontWeight="bold" />
+  }
+}
+  
 
 const StyledUsersDetailsChild = glamorous.div({
   padding: "100px",
@@ -57,17 +76,58 @@ const UsersDetails = ({user, currentUser}) => {
     <HeadTags url={Users.getProfileUrl(user, true)} title={Users.getDisplayName(user)} />
     <h2 className="page-title">{Users.getDisplayName(user)}</h2>
     <UsersAvatar size="large" user={user} link={false}/>
-    {user.htmlBio ? <StyledHTMLBio dangerouslySetInnerHTML={{__html: user.htmlBio}}></StyledHTMLBio> : null }
+
+    {user.htmlBio ? 
+      <StyledHTMLBio dangerouslySetInnerHTML={{__html: user.htmlBio}}></StyledHTMLBio> : null }
+
     <ul>
-      {user.twitterUsername ? <li>Twitter Handle: <a href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a></li> : null }
-      {user.services.fbProfileLink ? <li> <a href={user.services.fbProfileLink}>FB Profile Link</a></li> : null}
-      {user.website ? <li>Website: <a href={user.website}>{user.website}</a></li> : null }
-      <li>Linkedin ID: <a href={user.linkedinId}>{user.linkedinId}</a></li>
-      <li>Roll Number: {user.rollNoOrRegNo}</li>
-      <li>Branch: {user.branch}</li>
-      <li>Graduating Year: {user.classOf}</li>
-      <li>Degree Type: {user.levelOfDegree}</li>
-      <li>Company/University: {user.currentUniCompOccu}</li>
+      {user.twitterUsername ? 
+        <li>
+          <LabelComponents.TwitterHandle />
+          <a href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a>
+        </li> : null }
+
+      {user.services.fbProfileLink ? 
+        <li> 
+          <LabelComponents.FacebookProfile />
+          <a href={user.services.fbProfileLink}>FB Profile Link</a>
+        </li> : null}
+
+      {user.website ? 
+        <li>
+          <LabelComponents.Website />
+          <a href={user.website}>{user.website}</a>
+        </li> : null }
+
+      <li>
+        <LabelComponents.LinkedinID />
+        <a href={user.linkedinId}>{user.linkedinId}</a>
+      </li>
+
+      <li>
+        <LabelComponents.RollNo />
+        {user.rollNoOrRegNo}
+      </li>
+
+      <li>
+        <LabelComponents.Branch />
+        {user.branch}
+      </li>
+
+      <li>
+        <LabelComponents.GraduatingYear />
+        {user.classOf}
+      </li>
+
+      <li>
+        <LabelComponents.DegreeType />
+        {user.levelOfDegree}
+      </li>
+
+      <li>
+         <LabelComponents.CompanyOrUniversity />
+        {user.currentUniCompOccu}
+      </li>
     </ul>
   </StyledUsersDetailsChild>
   )

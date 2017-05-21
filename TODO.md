@@ -23,13 +23,9 @@ const mustCompleteFragment1 = gql`
 
 Required User Fields :
 
-linkedinId,
-rollno,
-classOf,
-branch,
-email,
-phNo,
-displayName,
 availableForServices (long for "available"):
 
 ---
+## FUN FEATURES : 
+
+- LIST OF ROLL DIRECTS BENEATH EVERY PROFILE
