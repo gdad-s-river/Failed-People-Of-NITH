@@ -16,6 +16,21 @@ function valMutatorFunc(val, lightness) {
   return LightenDarkenColor(val, lightness)
 }
 
+
+// RIPPLE EFFECT PUSHED TO LOWEST PRIORITY
+// function handleMouseDown(e) {
+//   e.preventDefault();
+//   let that = this;
+//   let react = that.getBoundingClientRect();
+//   let offsetTop = rect.top + document.body.scrollTop;
+//   let offsetLeft = rect.left + document.body.scrollLeft;
+//   let offsetY = e.pageY - offsetTop;
+//   let offsetX = e.pageX- offsetLeft;
+
+//   this.classList.add('clicked').appendChild('<span>')
+
+// }
+
 const CustomLoginBtn = glamorous.button(
   {
     border: "none",
@@ -26,7 +41,8 @@ const CustomLoginBtn = glamorous.button(
     fontSize: "1.5rem",
     marginBottom: "15px",
     boxShadow: "0px 0px 15px -2px rgba(0, 0, 0, 0.75)",
-    cursor: "pointer"
+    cursor: "pointer",
+    transition: "all 0.25s cubic-bezier(.20,.70,.40,1)",
   },
   ({backgroundColor, hoverBackgroundColor}) => ({
     backgroundColor: backgroundColor ? backgroundColor: "white",

@@ -16,7 +16,7 @@ Package.onUse(function (api) {
 
   ]);
 
-  // api.addFiles('lib/stylesheets/style.scss');
+  api.addFiles('lib/stylesheets/fix.css');
 
   api.addAssets([
     'lib/static/nith.jpg'

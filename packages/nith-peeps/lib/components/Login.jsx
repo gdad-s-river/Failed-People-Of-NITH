@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import {oneLine} from 'common-tags';
 import { Accounts } from 'meteor/vulcan:accounts';
 
-const Header = () => {
+const Head = () => {
   return (
     <Helmet>
       <title>Login to People of NITH</title>
@@ -31,6 +31,7 @@ const Header = () => {
       <link rel="canonical" href="http://peopleofnith.com/" />
       <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Love+Ya+Like+A+Sister" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet" />
       {
           <style type="text/css">{`
             body {
@@ -39,6 +40,12 @@ const Header = () => {
               background-repeat: no-repeat;
               background-position: 50% 50%;
               overflow-y: hidden;
+            }
+
+            .accounts-ui {
+              padding: 50px;
+              border: 4px solid #fde5c9;
+              background: rgba(0,0,0,0.2);
             }
         `}</style>
       }
@@ -54,13 +61,33 @@ const AccountsLoginWrapper = glamorous.div({
   alignItems: "center",
 })
 
+const StyledHeading = glamorous.h1({
+  position: "absolute",
+  top: "5%",
+  textAlign: "center",
+  right: 0,
+  width: "100%",
+  fontFamily: `'Barrio', cursive`,
+  fontSize: "3rem",
+  borderTop: "10px solid bisque",
+  borderBottom: "10px solid bisque",
+  color: "bisque",
+  backgroundColor: "rgba(0,0,0,0.5)",
+  '@media(min-width: 900px)': {
+    fontSize: "5rem",
+    top: 0
+  }
+
+})
+
 
 const LoginScreen = ({currentUser, loading}) => {
   return (
     <div className="">
         <div>
           {/*{ currentUser ? <div> Okay Baby You are already logged in</div>: "" }*/}
-          <Header />
+          <Head/>
+          <StyledHeading>People of NITH</StyledHeading>
           <AccountsLoginWrapper>
           {/*Rename this wrapper to AccountsLoginStylesWrapper*/}
               <Components.AccountsLoginForm/>

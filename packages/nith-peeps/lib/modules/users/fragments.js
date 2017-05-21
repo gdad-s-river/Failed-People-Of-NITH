@@ -52,6 +52,9 @@ registerFragment(`
     website
     groups
     phone
+    currentUniCompOccu
+    avatarUrl
+    services
     # karma
     # vulcan:posts
     # postCount

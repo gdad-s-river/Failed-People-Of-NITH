@@ -1,0 +1,7 @@
+.accounts-ui .buttons a {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -22,7 +22,8 @@ const StyledNav = glamorous(Nav)({
   width: "100%",
   margin: 0,
   right: 0,
-  left: 0
+  left: 0,
+  zIndex: 1000
 })
 
 import React, { PropTypes, Component } from 'react';
@@ -34,20 +35,7 @@ class CustomLayout extends Component  {
   // }
 
   // componentDidMount() {
-  //   const {currentUserWithMustFields} = this.props;
-  //
-  //   // console.log(!Users.hasCompletedProfile(currentUserWithMustFields))
-  //   // console.log("currentUserWithMustFields componentDidMount ", currentUserWithMustFields._id)
-  //   // console.log("Current User is", Users.getUser(currentUserWithMustFields._id))
-  //
-  //   if (!!currentUserWithMustFields && !Users.hasCompletedProfile(currentUserWithMustFields)) {
-  //     browserHistory.push("/complete-profile");
-  //     console.log("Not completed bro");
-  //   } else {
-  //     // browserHistory.push("/");
-  //     console.log("oh yeah it's completed");
-  //     // browserHistory.push("/");
-  //   }
+  //   console.log(document.querySelector(".accounts-ui .buttons"))
   // }
 
   render() {
