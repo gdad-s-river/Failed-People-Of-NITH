@@ -3,12 +3,11 @@ import React from 'react';
 import Posts from 'meteor/vulcan:posts';
 import { Alert } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
+import classNames from 'classnames';
 
 const Error = ({error}) => <Alert className="flash-message" bsStyle="danger"><FormattedMessage id={error.id} values={{value: error.value}}/>{error.message}</Alert>
 
-const PostsList = (props) => {
-
-  const {results, loading, count, totalCount, loadMore, showHeader = true, showLoadMore = true, networkStatus, currentUser, error, terms} = props;
+const PostsList = ({className, results, loading, count, totalCount, loadMore, showHeader = true, showLoadMore = true, networkStatus, currentUser, error, terms}) => {
 
   const loadingMore = networkStatus === 2;
 
@@ -17,7 +16,7 @@ const PostsList = (props) => {
     const hasMore = totalCount > results.length;
 
     return (
-      <div className="posts-list">
+      <div className={classNames(className, 'posts-list')}>
         {showHeader ? <Components.PostsListHeader/> : null}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
@@ -28,7 +27,7 @@ const PostsList = (props) => {
     )
   } else if (loading) {
     return (
-      <div className="posts-list">
+      <div className={classNames(className, 'posts-list')}>
         {showHeader ? <Components.PostsListHeader /> : null}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
@@ -38,7 +37,7 @@ const PostsList = (props) => {
     )
   } else {
     return (
-      <div className="posts-list">
+      <div className={classNames(className, 'posts-list')}>
         {showHeader ? <Components.PostsListHeader /> : null}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="posts-list-content">
