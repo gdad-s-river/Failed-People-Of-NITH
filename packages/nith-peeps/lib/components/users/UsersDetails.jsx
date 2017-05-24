@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import HeadTags from '../common/HeadTags.jsx';
 import { Components } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
@@ -26,13 +26,18 @@ const labelStrings = new Set([
 
 const LabelComponents = {};
 
-const BoldSpanComponent = ({className, text, ...props}) => {
+const BoldSpanComponent = ({text, fontWeight}) => {
   const StyledSpan = glamorous.span({
-    fontWeight: props.fontWeight
+    fontWeight: fontWeight
   })
   return (
     <StyledSpan>{text}: </StyledSpan>
   )
+}
+
+BoldSpanComponent.propTypes = {
+  text: PropTypes.string.isRequired,
+  fontWeight: PropTypes.string
 }
 
 for (let label of labelStrings) {

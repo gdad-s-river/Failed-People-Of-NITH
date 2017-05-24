@@ -1,9 +1,36 @@
 import { registerComponent } from 'meteor/vulcan:core';
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+
+import { addAction, addReducer, getActions } from 'meteor/vulcan:lib';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+addAction({
+  searchBg: {
+    setBackground(bgColor) {
+      return {
+        type: "SET_BACKGROUND",
+        bgColor,
+      }
+    }
+  }
+});
+
+addReducer({
+  searchBg: (state = "#fff", action) => {
+    switch(action.type) {
+      case "SET_BACKGROUND":
+        return action.bgColor
+      default: 
+        return state;
+    }
+  },
+});
 
 const Input = FRC.Input;
 
@@ -44,8 +71,9 @@ class Search extends Component{
   }
 
   render() {
+    const { setBackground, searchBg } = this.props;
     return (
-      <div className="search-form">
+      <div className="search-form" style={{padding: "100px"}}>
         <Formsy.Form onChange={this.search}>
           <Input
             name="searchQuery"
@@ -53,7 +81,10 @@ class Search extends Component{
             placeholder={this.context.intl.formatMessage({id: "posts.search"})}
             type="text"
             layout="elementOnly"
+            onFocus={() => setBackground("#000")}
+            onBlur={() => setBackground("#fff")}
           />
+          <div>{searchBg}</div>
         </Formsy.Form>
       </div>
     )
@@ -64,4 +95,13 @@ Search.contextTypes = {
   intl: intlShape
 };
 
-export default withRouter(Search);
+Search.propTypes = {
+  setBackground: PropTypes.func.isRequired,
+  searchBg: PropTypes.string.isRequired
+}
+
+
+const mapStateToProps = state => ({ searchBg: state.searchBg, });
+const mapDispatchToProps = dispatch => bindActionCreators(getActions().searchBg, dispatch);
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));

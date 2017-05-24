@@ -8,7 +8,7 @@ class RedirectToCompleteProfile extends Component {
   }
 
   render() {
-    return <div></div>
+    return null
   }
 }
 

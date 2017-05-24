@@ -8,13 +8,17 @@
 
 import { withCurrentUser } from 'meteor/vulcan:core';
 import gql from 'graphql-tag';
+import { connect } from 'react-redux';
+import glamorous from 'glamorous';
 import Users from 'meteor/vulcan:users';
-import withMustComplete from '../containers/withMustComplete.js';
 import { browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
+
+import withMustComplete from '../containers/withMustComplete.js';
 import MustCompleteCheckRedir from '../MustCompleteCheckRedir.jsx';
 import Nav from './Nav.jsx';
-import glamorous from 'glamorous';
+
 
 const StyledNav = glamorous(Nav)({
   position: "fixed",
@@ -44,8 +48,12 @@ class CustomLayout extends Component  {
     //     currentUserWithMustFields: this.props.currentUserWithMustFields
     //   })
     // })
+
+    const { searchBg } = this.props;
     return (
-      <div className="wrapper" id="wrapper">
+      <div className="wrapper" id="wrapper" style={{
+        background: searchBg
+      }}>
         {this.props.currentUser ? <StyledNav currentUser={this.props.currentUser} /> :  null }
         { this.props.currentUser ?
             <MustCompleteCheckRedir currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
@@ -73,4 +81,10 @@ class CustomLayout extends Component  {
 //   fragment: mustCompleteFragment,
 // };
 
-export default withCurrentUser(CustomLayout);
+CustomLayout.propTypes = {
+  searchBg: PropTypes.string.isRequired
+}
+
+const mapStateToProps = state => ({ searchBg: state.searchBg, });
+
+export default withCurrentUser(connect(mapStateToProps, null)(CustomLayout));
