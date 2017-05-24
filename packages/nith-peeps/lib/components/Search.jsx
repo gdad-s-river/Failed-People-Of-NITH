@@ -1,9 +1,9 @@
-import { registerComponent } from 'meteor/vulcan:core';
+import { registerComponent, Components } from 'meteor/vulcan:core';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { addAction, addReducer, getActions } from 'meteor/vulcan:lib';
@@ -62,7 +62,10 @@ class Search extends Component{
   search(data) {
 
     const router = this.props.router;
-    const query = data.searchQuery === '' ? router.location.query : {...router.location.query, query: data.searchQuery};
+    const routerQuery = _.clone(router.location.query);
+    delete routerQuery.query;
+
+    const query = data.searchQuery === '' ? routerQuery : {...routerQuery, query:data.searchQuery}; 
 
     delay(() => {
       router.push({pathname: "/search", query: query});
@@ -71,6 +74,9 @@ class Search extends Component{
   }
 
   render() {
+    const resetQuery = _.clone(this.props.location.query);
+    delete resetQuery.query;
+
     const { setBackground, searchBg } = this.props;
     return (
       <div className="search-form" style={{padding: "100px"}}>
@@ -84,7 +90,7 @@ class Search extends Component{
             onFocus={() => setBackground("#000")}
             onBlur={() => setBackground("#fff")}
           />
-          <div>{searchBg}</div>
+          {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}
         </Formsy.Form>
       </div>
     )

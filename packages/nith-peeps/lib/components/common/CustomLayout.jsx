@@ -6,6 +6,8 @@
 
 //--------TODO: Convert it into dumb component -------------//
 
+
+import React, { Component } from 'react';
 import { withCurrentUser } from 'meteor/vulcan:core';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
@@ -29,8 +31,6 @@ const StyledNav = glamorous(Nav)({
   left: 0,
   zIndex: 1000
 })
-
-import React, { PropTypes, Component } from 'react';
 
 class CustomLayout extends Component  {
   // constructor(props, context) {
