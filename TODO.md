@@ -7,7 +7,7 @@
 - See any missing proptypes and fill them properly
 - Register a fragment that is being used multiple times
 - Implement infinite scroll instead of pagination
-- add custome labels for necessary fields (to include a star).
+- add custom labels for necessary fields (to include a star).
 
 ```javascript
 const mustCompleteFragment1 = gql`

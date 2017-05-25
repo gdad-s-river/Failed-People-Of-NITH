@@ -8,6 +8,13 @@ import UsersLoadMore from "./UsersLoadMore.jsx";
 import UsersNoMore from "./UsersNoMore.jsx";
 import UsersNoResult from "./UsersNoResult.jsx";
 import gql from 'graphql-tag';
+import LinkBare from '../common/LinkBare.jsx';
+import glamorous from 'glamorous';
+
+const StyledUsersListContainer = glamorous.div({
+  width: "500px",
+  margin: "0 auto"
+})
 
 const Error = ({error}) => <Alert className="flash-message" bsStyle="danger"><FormattedMessage id={error.id} values={{value: error.value}}/>{error.message}</Alert>
 
@@ -22,14 +29,20 @@ const UsersList = (props) => {
     const hasMore = totalCount > results.length;
 
     return (
-      <div className="users-list">
+      <StyledUsersListContainer className="users-list" >
         {/* {showHeader ? <Components.PostsListHeader/> : null} */}
         {error ? <Error error={Utils.decodeIntlError(error)} /> : null }
         <div className="users-list-content">
-          {results.map(user => <UsersItem user={user} key={user._id} currentUser={currentUser} terms={terms} />)}
+          {
+            results.map(user => 
+              <LinkBare to={`users/${user.slug}`} key={user._id} >
+                <UsersItem user={user} key={user._id} currentUser={currentUser} terms={terms} />
+              </LinkBare> 
+            )
+          }
         </div>
         {showLoadMore ? hasMore ? (loadingMore ? <Components.Loading/> : <UsersLoadMore loadMore={loadMore} count={count} totalCount={totalCount} />) : <UsersNoMore/> : null}
-      </div>
+      </StyledUsersListContainer>
     )
   } else if (loading) {
     return (

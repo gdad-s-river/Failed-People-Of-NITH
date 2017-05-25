@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import Users from 'meteor/vulcan:users';
 import { Link } from 'react-router';
 
-const UsersAvatar = ({user, size, link}) => {
+const UsersAvatar = ({user, size, link, imgStyles}) => {
 
   const sizes = {
     small: "20px",
@@ -21,7 +21,8 @@ const UsersAvatar = ({user, size, link}) => {
     borderRadius: "100%",
     display: "block",
     height: sizes[size],
-    width: sizes[size]
+    width: sizes[size],
+    ...imgStyles
   };
 
   const avatarUrl = user.avatarUrl || Users.avatar.getUrl(user);

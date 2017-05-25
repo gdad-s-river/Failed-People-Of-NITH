@@ -1,8 +1,15 @@
 import { Components, ModalTrigger } from 'meteor/vulcan:core';
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
-import { Link } from 'react-router';
 import Users from "meteor/vulcan:users";
+import UsersAvatar from './UsersAvatar'
+import glamorous from 'glamorous';
+
+const StyledUserDetails = glamorous.span({
+  position: "relative",
+  top: "-8px",
+  padding: "12px"
+})
 
 class UsersItem extends Component {
 
@@ -32,7 +39,13 @@ class UsersItem extends Component {
     if (user.sticky) userClass += " users-sticky";
 
     return (
-      <div className={userClass}>
+      <div className={userClass} style={{
+        padding: "10px",
+        background: "#d2eff3",
+        margin: "0 0 3px",
+        color: "#212121",
+        borderRadius: "25px"
+      }}>
 
         {/* <div className="posts-item-vote">
           <Components.Vote collection={Posts} document={post} currentUser={this.props.currentUser}/>
@@ -41,14 +54,13 @@ class UsersItem extends Component {
         {/* {post.thumbnailUrl ? <Components.PostsThumbnail post={post}/> : null} */}
 
         <div className="posts-item-content">
-          <Link to={`users/${user.slug}`}>
-            <ul style={{
-              display: "flex",
-              justifyContent: "space-around"
-            }}>
-              <li>{user.displayName}</li>
-            </ul>
-          </Link>
+          <UsersAvatar size="medium" user={user} link={false} imgStyles={{
+            display: "inline-block"
+          }}/>
+          <StyledUserDetails>
+          {user.displayName} {user.rollNoOrRegNo} {user.branch} {user.graduatingUser} {user.currentOccupation}
+          </StyledUserDetails>
+
 {/*
           <h3 className="posts-item-title">
             <Link to={Posts.getLink(post)} className="posts-item-title-link" target={Posts.getLinkTarget(post)}>

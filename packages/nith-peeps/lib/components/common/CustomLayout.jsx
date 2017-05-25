@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import glamorous from 'glamorous';
 import Users from 'meteor/vulcan:users';
-import { browserHistory } from 'react-router';
+import { browserHistory, withRouter } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 
@@ -49,10 +49,10 @@ class CustomLayout extends Component  {
     //   })
     // })
 
-    const { searchBg } = this.props;
+    const { searchBg, location } = this.props;
     return (
       <div className="wrapper" id="wrapper" style={{
-        background: searchBg
+        background: location.pathname === "/search" ? searchBg: ''
       }}>
         {this.props.currentUser ? <StyledNav currentUser={this.props.currentUser} /> :  null }
         { this.props.currentUser ?
@@ -87,4 +87,4 @@ CustomLayout.propTypes = {
 
 const mapStateToProps = state => ({ searchBg: state.searchBg, });
 
-export default withCurrentUser(connect(mapStateToProps, null)(CustomLayout));
+export default withRouter(withCurrentUser(connect(mapStateToProps, null)(CustomLayout)));

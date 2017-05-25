@@ -74,7 +74,7 @@ let fieldSchemaMapping = {
     editableBy: ['members'],
     viewableBy: ['members']
   },
-  classOf: {
+  graduatingYear: {
     type: SimpleSchema.Integer,
     optional: true,
     mustComplete: true,
@@ -103,7 +103,7 @@ let fieldSchemaMapping = {
     viewableBy: ['members']
   },
 
-  levelOfDegree: {
+  degreeType: {
     type: String,
     optional: true,
     mustComplete: true,
@@ -139,15 +139,60 @@ let fieldSchemaMapping = {
     editableBy: ["members"],
     viewableBy: ["members"]
   },
-  currentUniCompOccu: {
+  currentOccupation: {
     type: String,
     optional: true,
     mustComplete: true,
-    max: 20,
+    max: 100,
     insertableBy: ["members"],
     editableBy: ["members"],
     viewableBy: ["members"]
-  }
+  },
+  availableForServices: {
+    type: Boolean,
+    mustComplete: true,
+    optional: true,
+    insertableBy: ["members"],
+    editableBy: ["members"],
+    viewableBy: ["members"],
+    control: "select",
+    form: {
+      options: function availableForServices() {
+        return [
+          {value: true, label: "true"},
+          {value: false, label: "false"}
+        ]
+      }
+    },
+  },
+  email: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Email,
+    mustComplete: true,
+    control: "text",
+    insertableBy: ['guests'],
+    editableBy: ['members'],
+    viewableBy: ["members"],
+    onInsert: (user) => {
+      // look in a few places for the user email
+      const meteorEmails = Utils.getNestedProperty(user, 'services.meteor-developer.emails');
+      const facebookEmail = Utils.getNestedProperty(user, 'services.facebook.email');
+      const githubEmail = Utils.getNestedProperty(user, 'services.github.email');
+      const googleEmail = Utils.getNestedProperty(user, 'services.google.email');
+      const linkedinEmail = Utils.getNestedProperty(user, 'services.linkedin.emailAddress');
+
+      if (meteorEmails) return _.findWhere(meteorEmails, { primary: true }).address;
+      if (facebookEmail) return facebookEmail;
+      if (githubEmail) return githubEmail;
+      if (googleEmail) return googleEmail;
+      if (linkedinEmail) return linkedinEmail;
+      return undefined;
+    }
+    // unique: true // note: find a way to fix duplicate accounts before enabling this
+  },
+
+
     
 }
 

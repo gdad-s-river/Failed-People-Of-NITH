@@ -51,6 +51,7 @@ function checkProfileOnUpdate (unusedItem, store, apolloClient) {
     }
     // browserHistory.push("/complete-profile");
   }
+  return null;
 }
 
 addCallback('router.onUpdate', checkProfileOnUpdate);

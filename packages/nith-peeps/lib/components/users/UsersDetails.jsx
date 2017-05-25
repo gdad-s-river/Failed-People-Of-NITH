@@ -15,12 +15,15 @@ const labelStrings = new Set([
   "Facebook Profile",
   "Website",
   "Linkedin ID",
-  "Roll No",
+  "Roll No Or Reg No",
   "Branch",
   "Graduating Year",
   "Degree Type",
-  "Company Or University",
-  "Bio"
+  "Current Occupation",
+  "Bio",
+  "Email",
+  "Phone No",
+  "Available For Services"
 ])
 
 
@@ -56,21 +59,55 @@ const StyledUsersDetailsChild = glamorous.div({
   justifyContent: "center",
   alignItems: "center",
   '@media(min-width: 900px)': {
-    transform: "translateY(-50px)"
+    transform: "translateY(-20px)"
    }
 });
 
 const StyledHTMLBio = glamorous.div({
   maxWidth: "250px",
   width: "250px",
+  textAlign: "justify",
+  padding: "0 0 25px",
   '@media(min-width: 900px)': {
     maxWidth: "500px",
-    width: "auto"
+    width: "auto",
   }
 })
 
+const StyledUsernameHeading = glamorous.h2({
+  fontSize: "1.5rem",
+  padding: "20px"
+})
+
+const StyledUserListItem = glamorous.li({
+  padding: "0 0 5px"
+})
+
+function camelCasedLabel(str) {
+    let stringsWithoutSpaces = str.replace(/\s/g,'');
+    let lowerCasedString = stringsWithoutSpaces.charAt(0).toLowerCase() + stringsWithoutSpaces.slice(1);
+    return lowerCasedString;
+}
+
 const UsersDetails = ({user, currentUser}) => {
+  /*
+    CHALLENGE && TODO: prevent manual entries of list
+  */
   console.log(user);
+  // const userKeys = Object.keys(user);
+
+  // function f(signature) {
+  //   for (let label of labelStrings) {
+  //     if(userKeys.indexOf(camelCasedLabel(label))) {
+  //       console.log(`
+  //         <li>
+  //           ${user[camelCasedLabel(label)]}
+  //         </li>
+  //       `)
+  //     }
+  //   }
+  // }
+
   if(!currentUser) {
     // perhaps a redirect component with a proper login message
     return <div>Please Login</div>
@@ -79,61 +116,83 @@ const UsersDetails = ({user, currentUser}) => {
     // TODO: proper padding place
   <StyledUsersDetailsChild className="page users-profile">
     <HeadTags url={Users.getProfileUrl(user, true)} title={Users.getDisplayName(user)} />
-    <h2 className="page-title">{Users.getDisplayName(user)}</h2>
     <UsersAvatar size="large" user={user} link={false}/>
+    <StyledUsernameHeading className="page-title">{Users.getDisplayName(user)}</StyledUsernameHeading>
 
     {user.htmlBio ? 
       <StyledHTMLBio dangerouslySetInnerHTML={{__html: user.htmlBio}}></StyledHTMLBio> : null }
+    
+    <div className="user-details-wrapper">
+      <ul>
+        {user.twitterUsername ? 
+          <StyledUserListItem>
+            <LabelComponents.TwitterHandle />
+          {/* TODO: Abstract away a link with target and rel noopener into a separate component*/}
+            <a target="_blank" rel="noopener noreferrer" href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a>
+          </StyledUserListItem> : null }
 
-    <ul>
-      {user.twitterUsername ? 
-        <li>
-          <LabelComponents.TwitterHandle />
-          <a href={"http://twitter.com/" + user.twitterUsername}>@{user.twitterUsername}</a>
-        </li> : null }
+        {user.services.fbProfileLink ? 
+          <StyledUserListItem> 
+            <LabelComponents.FacebookProfile />
+            <a target="_blank" rel="noopener noreferrer" href={user.services.fbProfileLink}>FB Profile Link</a>
+          </StyledUserListItem> : null}
 
-      {user.services.fbProfileLink ? 
-        <li> 
-          <LabelComponents.FacebookProfile />
-          <a href={user.services.fbProfileLink}>FB Profile Link</a>
-        </li> : null}
+        {user.website ? 
+          <StyledUserListItem>
+            <LabelComponents.Website />
+            <a href={user.website}>{user.website}</a>
+          </StyledUserListItem> : null }
 
-      {user.website ? 
-        <li>
-          <LabelComponents.Website />
-          <a href={user.website}>{user.website}</a>
-        </li> : null }
+        <StyledUserListItem>
+          <LabelComponents.LinkedinID />
+          <a href={user.linkedinId}>{user.linkedinId}</a>
+        </StyledUserListItem>
 
-      <li>
-        <LabelComponents.LinkedinID />
-        <a href={user.linkedinId}>{user.linkedinId}</a>
-      </li>
+        <StyledUserListItem>
+          <LabelComponents.RollNoOrRegNo />
+          {user.rollNoOrRegNo}
+        </StyledUserListItem>
 
-      <li>
-        <LabelComponents.RollNo />
-        {user.rollNoOrRegNo}
-      </li>
+        <StyledUserListItem>
+          <LabelComponents.Branch />
+          {user.branch}
+        </StyledUserListItem>
 
-      <li>
-        <LabelComponents.Branch />
-        {user.branch}
-      </li>
+        <StyledUserListItem>
+          <LabelComponents.GraduatingYear />
+          {user.graduatingYear}
+        </StyledUserListItem>
 
-      <li>
-        <LabelComponents.GraduatingYear />
-        {user.classOf}
-      </li>
+        <StyledUserListItem>
+          <LabelComponents.DegreeType />
+          {user.degreeType}
+        </StyledUserListItem>
 
-      <li>
-        <LabelComponents.DegreeType />
-        {user.levelOfDegree}
-      </li>
+        <StyledUserListItem>
+           <LabelComponents.CurrentOccupation />
+          {user.currentOccupation}
+        </StyledUserListItem>
 
-      <li>
-         <LabelComponents.CompanyOrUniversity />
-        {user.currentUniCompOccu}
-      </li>
-    </ul>
+        <StyledUserListItem>
+          <LabelComponents.Email />
+          {user.email}
+        </StyledUserListItem>
+
+        {user.phone ? 
+          <StyledUserListItem>
+            <LabelComponents.PhoneNo />
+            {user.phone}
+          </StyledUserListItem> : null
+        }
+
+      {user.availableForServices ?
+        <StyledUserListItem>
+          <LabelComponents.AvailableForServices />
+          {user.availableForServices.toString()}
+        </StyledUserListItem> : null
+      }
+      </ul>
+    </div>
   </StyledUsersDetailsChild>
   )
 

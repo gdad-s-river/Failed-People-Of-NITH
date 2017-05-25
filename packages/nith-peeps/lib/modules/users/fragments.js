@@ -32,10 +32,11 @@ registerFragment(`
     _id
     linkedinId
     branch
-    classOf
+    graduatingYear
     rollNoOrRegNo
-    levelOfDegree
+    degreeType
     email
+    availableForServices
   }
 `)
 
@@ -52,7 +53,7 @@ registerFragment(`
     website
     groups
     phone
-    currentUniCompOccu
+    currentOccupation
     avatarUrl
     services
     # karma

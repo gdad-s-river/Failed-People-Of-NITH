@@ -10,6 +10,11 @@ import { addAction, addReducer, getActions } from 'meteor/vulcan:lib';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import glamorous from 'glamorous';
+
+const  defaultSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
+const  onFocusSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
+
 addAction({
   searchBg: {
     setBackground(bgColor) {
@@ -22,7 +27,7 @@ addAction({
 });
 
 addReducer({
-  searchBg: (state = "#fff", action) => {
+  searchBg: (state = defaultSearchBg, action) => {
     switch(action.type) {
       case "SET_BACKGROUND":
         return action.bgColor
@@ -32,7 +37,24 @@ addReducer({
   },
 });
 
+// --------------- END OF REDUX THINGS ------------- //
+
 const Input = FRC.Input;
+
+const StyledInput = glamorous(Input)({
+  fontSmoothing: "antialiased",
+  fontSize: "6rem",
+  fontWeight: "bold",
+  background: "none",
+  color: "white",
+  boxShadow: "none",
+  width: "100%",
+  border: "none",
+  outlineWidth: 0,
+  "::placeholder": {
+    color: "#9cfbff"
+  }
+});
 
 // see: http://stackoverflow.com/questions/1909441/jquery-keyup-delay
 const delay = (function(){
@@ -78,17 +100,21 @@ class Search extends Component{
     delete resetQuery.query;
 
     const { setBackground, searchBg } = this.props;
+
+    {/* onBlur Color is repetitive since it's being used as initial
+      redux state value as well.
+      Find a solution to get it from the initial state*/}
     return (
       <div className="search-form" style={{padding: "100px"}}>
         <Formsy.Form onChange={this.search}>
-          <Input
+          <StyledInput
             name="searchQuery"
             value={this.state.search}
             placeholder={this.context.intl.formatMessage({id: "posts.search"})}
             type="text"
             layout="elementOnly"
-            onFocus={() => setBackground("#000")}
-            onBlur={() => setBackground("#fff")}
+            onFocus={() => setBackground(onFocusSearchBg)}
+            onBlur={() => setBackground(defaultSearchBg)}
           />
           {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}
         </Formsy.Form>
