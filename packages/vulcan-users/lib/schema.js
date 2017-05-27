@@ -174,9 +174,11 @@ const schema = {
 
       const twitterAvatar = Utils.getNestedProperty(user, 'services.twitter.profile_image_url_https');
       const facebookId = Utils.getNestedProperty(user, 'services.facebook.id');
+      const googleId = Utils.getNestedProperty(user, 'services.google.id')
 
       if (twitterAvatar) return twitterAvatar;
       if (facebookId) return `https://graph.facebook.com/${facebookId}/picture?type=large`;
+      if(googleId) return user.services.google.picture;
       return undefined;
 
     }

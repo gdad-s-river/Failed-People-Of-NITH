@@ -7,6 +7,7 @@ import glamorous from 'glamorous';
 import Helmet from 'react-helmet';
 import {oneLine} from 'common-tags';
 import { Accounts } from 'meteor/vulcan:accounts';
+import mediaQueries from '../modules/media-queries.js';
 
 const Head = () => {
   return (
@@ -73,7 +74,7 @@ const StyledHeading = glamorous.h1({
   borderBottom: "10px solid bisque",
   color: "bisque",
   backgroundColor: "rgba(0,0,0,0.5)",
-  '@media(min-width: 900px)': {
+  [mediaQueries.default]: {
     fontSize: "5rem",
     top: 0
   }

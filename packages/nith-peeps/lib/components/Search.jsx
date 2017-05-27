@@ -11,6 +11,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import glamorous from 'glamorous';
+import Helmet from 'react-helmet';
+
+import mediaQueries from '../modules/media-queries.js';
 
 const  defaultSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
 const  onFocusSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
@@ -43,9 +46,9 @@ const Input = FRC.Input;
 
 const StyledInput = glamorous(Input)({
   fontSmoothing: "antialiased",
-  fontSize: "6rem",
+  fontSize: "5rem",
   fontWeight: "bold",
-  background: "none",
+  // background: "none",
   color: "white",
   boxShadow: "none",
   width: "100%",
@@ -53,6 +56,30 @@ const StyledInput = glamorous(Input)({
   outlineWidth: 0,
   "::placeholder": {
     color: "#9cfbff"
+  },
+  // copied and tinkered from: https://codepen.io/lehollandaisvolant/pen/aNQNjx
+  background: "no-repeat",
+  backgroundImage: "linear-gradient(to bottom, #4ca1af, #4ca1af)",
+  backgroundSize: "0 5px, 100% 5px",
+  backgroundPosition: "50% 100%, 50% 100%",
+  transition: "background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1)",
+  ":focus": {
+      backgroundSize: "100% 5px, 100% 5px",
+      outline: "none"
+  },
+  textAlign: "center",
+  [mediaQueries.default]: {
+    textAlign: "unset"
+  }
+});
+
+const SearchFormContainer = glamorous.div({
+  padding: "50px 0",
+  [mediaQueries.default]: {
+    padding: "70px 100px"
+  },
+  "body": {
+    height: "auto"
   }
 });
 
@@ -101,13 +128,27 @@ class Search extends Component{
 
     const { setBackground, searchBg } = this.props;
 
+    const BorderAnimeSpan = glamorous.span({
+
+    })
+
     {/* onBlur Color is repetitive since it's being used as initial
       redux state value as well.
       Find a solution to get it from the initial state*/}
     return (
-      <div className="search-form" style={{padding: "100px"}}>
+      <SearchFormContainer className="search-form">
+        <Helmet>
+          <style type="text/css">
+          {`
+              body {  
+                background: ${searchBg}
+              }
+          `}
+          </style>
+        </Helmet>
         <Formsy.Form onChange={this.search}>
           <StyledInput
+            className="search"
             name="searchQuery"
             value={this.state.search}
             placeholder={this.context.intl.formatMessage({id: "posts.search"})}
@@ -116,9 +157,10 @@ class Search extends Component{
             onFocus={() => setBackground(onFocusSearchBg)}
             onBlur={() => setBackground(defaultSearchBg)}
           />
+          <BorderAnimeSpan className="border-bottom-anime"></BorderAnimeSpan>
           {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}
         </Formsy.Form>
-      </div>
+      </SearchFormContainer>
     )
   }
 }

@@ -220,7 +220,7 @@ export const createCollection = options => {
     }
 
     // console.log(parameters);
-    console.log("collection: getParamenter return: ", parameters);
+    // console.log("collection: getParamenter return: ", parameters);
     return parameters;
   }
 

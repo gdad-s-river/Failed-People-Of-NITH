@@ -7,7 +7,8 @@ const UsersAvatar = ({user, size, link, imgStyles}) => {
   const sizes = {
     small: "20px",
     medium: "30px",
-    large: "100px"
+    large: "50px",
+    "XL": "100px"
   }
 
   const aStyle = {

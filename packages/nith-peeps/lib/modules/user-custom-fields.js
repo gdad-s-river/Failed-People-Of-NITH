@@ -1,5 +1,6 @@
 import Users from 'meteor/vulcan:users';
 import SimpleSchema from 'simpl-schema';
+import { Utils } from 'meteor/vulcan:lib';
 
 function addUserFields(fieldSchemaMapping){
   for(let key in fieldSchemaMapping) {

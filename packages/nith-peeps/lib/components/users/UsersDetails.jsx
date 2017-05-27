@@ -9,6 +9,9 @@ import UsersAvatar from './UsersAvatar';
 import {Utils} from 'meteor/vulcan:core';
 
 import glamorous from 'glamorous';
+import Helmet from 'react-helmet';
+
+import mediaQueries from '../../modules/media-queries.js';
 
 const labelStrings = new Set([
   "Twitter Handle",
@@ -58,7 +61,7 @@ const StyledUsersDetailsChild = glamorous.div({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  '@media(min-width: 900px)': {
+  [mediaQueries.default]: {
     transform: "translateY(-20px)"
    }
 });
@@ -68,7 +71,7 @@ const StyledHTMLBio = glamorous.div({
   width: "250px",
   textAlign: "justify",
   padding: "0 0 25px",
-  '@media(min-width: 900px)': {
+  [mediaQueries.default]: {
     maxWidth: "500px",
     width: "auto",
   }
@@ -76,11 +79,14 @@ const StyledHTMLBio = glamorous.div({
 
 const StyledUsernameHeading = glamorous.h2({
   fontSize: "1.5rem",
-  padding: "20px"
+  padding: "20px",
+  textAlign: "center",
+  width: "100vw"
 })
 
 const StyledUserListItem = glamorous.li({
-  padding: "0 0 5px"
+  padding: "0 0 5px",
+  margin: "0 0 5px"
 })
 
 function camelCasedLabel(str) {
@@ -92,8 +98,8 @@ function camelCasedLabel(str) {
 const UsersDetails = ({user, currentUser}) => {
   /*
     CHALLENGE && TODO: prevent manual entries of list
-  */
-  console.log(user);
+  // */
+  // console.log(user);
   // const userKeys = Object.keys(user);
 
   // function f(signature) {
@@ -115,8 +121,17 @@ const UsersDetails = ({user, currentUser}) => {
   return (
     // TODO: proper padding place
   <StyledUsersDetailsChild className="page users-profile">
+    <Helmet>
+      <style type="text/css">
+      {`
+        body {
+          background: linear-gradient(to right, #fcfad0, #29ffc6)
+        }
+        `
+      }</style>
+    </Helmet>
     <HeadTags url={Users.getProfileUrl(user, true)} title={Users.getDisplayName(user)} />
-    <UsersAvatar size="large" user={user} link={false}/>
+    <UsersAvatar size="XL" user={user} link={false}/>
     <StyledUsernameHeading className="page-title">{Users.getDisplayName(user)}</StyledUsernameHeading>
 
     {user.htmlBio ? 

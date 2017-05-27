@@ -16,21 +16,66 @@ import Users from 'meteor/vulcan:users';
 import { browserHistory, withRouter } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
+import { Link } from 'react-router';
+
+import BurgerMenu from 'react-burger-menu';
 
 import withMustComplete from '../containers/withMustComplete.js';
 import MustCompleteCheckRedir from '../MustCompleteCheckRedir.jsx';
-import Nav from './Nav.jsx';
+// import Nav from './Nav.jsx';
+
+import mediaQueries from '../../modules/media-queries.js';
+// import 'glamor/reset';
 
 
-const StyledNav = glamorous(Nav)({
-  position: "fixed",
-  top: 0,
-  width: "100%",
-  margin: 0,
-  right: 0,
-  left: 0,
-  zIndex: 1000
+// const StyledNav = glamorous(Nav)({
+//   position: "fixed",
+//   top: 0,
+//   width: "100%",
+//   margin: 0,
+//   right: 0,
+//   left: 0,
+//   zIndex: 1000
+// })
+
+const LayoutWrapper = glamorous.div({
+  height: "100%",
+  [mediaQueries.default]: {
+    // height: "100%"
+  }
+}, ({location, searchBg}) => ({
+   background: location.pathname === "/search" ? searchBg: ''
+}))
+
+StyledUL = glamorous.ul({
+  display: "flex",
+  justifyContent: "space-around",
+  listStyleType: "none"
+});
+
+StyledLink = glamorous(Link)({
+  color: "inherit",
+  textDecoration: "none"
 })
+
+ 
+const YeComponent = ({currentUser}) => {
+  console.log(currentUser);
+  const Menu = BurgerMenu['slide'];
+  return (
+    <Menu className="ham-menu" id={'slide'} pageWrapId={'wrapper'} outerContainerId={'react-app'} left>
+      <StyledUL>
+        <li><StyledLink to="/">Home</StyledLink></li>
+        <li><StyledLink to="/complete-profile">Complete Profile</StyledLink></li>
+        <li><StyledLink to="/search">Search</StyledLink></li>
+        <li><StyledLink to={`/users/${currentUser.slug}`}>Profile</StyledLink></li>
+        <li><StyledLink to={`/users/${currentUser.slug}/edit`}>Profile Edit</StyledLink></li>
+        <li onClick={ () => Meteor.logout(() => window.location.reload() ) }>Sign Out </li>
+      </StyledUL> 
+    </Menu>
+  )
+}
 
 class CustomLayout extends Component  {
   // constructor(props, context) {
@@ -43,25 +88,22 @@ class CustomLayout extends Component  {
   // }
 
   render() {
-    // const childrenWithProps = React.Children.map(this.props.children, child => {
-    //   return React.cloneElement(child, {
-    //     currentUserWithMustFields: this.props.currentUserWithMustFields
-    //   })
-    // })
+    const { searchBg, location, currentUser } = this.props;
 
-    const { searchBg, location } = this.props;
+
     return (
-      <div className="wrapper" id="wrapper" style={{
-        background: location.pathname === "/search" ? searchBg: ''
-      }}>
-        {this.props.currentUser ? <StyledNav currentUser={this.props.currentUser} /> :  null }
-        { this.props.currentUser ?
-            <MustCompleteCheckRedir currentUser={this.props.currentUser} documentId={this.props.currentUser && this.props.currentUser._id} />
+      <LayoutWrapper className="wrapper" id="wrapper" location={location} searchBg={searchBg}>
+        <Helmet>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Helmet>
+        { currentUser ? <YeComponent currentUser={currentUser}/>: null}
+        { currentUser ?
+            <MustCompleteCheckRedir currentUser={currentUser} documentId={currentUser && currentUser._id} />
           : null
         }
 
         {this.props.children}
-      </div>
+      </LayoutWrapper>
     )
   }
 }

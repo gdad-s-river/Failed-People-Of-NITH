@@ -4,11 +4,23 @@ import { FormattedMessage, FormattedRelative } from 'react-intl';
 import Users from "meteor/vulcan:users";
 import UsersAvatar from './UsersAvatar'
 import glamorous from 'glamorous';
+import mediaQueries from '../../modules/media-queries.js';
 
 const StyledUserDetails = glamorous.span({
-  position: "relative",
-  top: "-8px",
-  padding: "12px"
+  // position: "relative",
+  // top: "-8px",
+  // padding: "12px",
+  width: "100px"
+})
+const UserDetailsWrapper = glamorous.div({
+  padding: "15px",
+  background: "#d2eff3",
+  margin: "0 0 5px",
+  color: "#212121",
+  [mediaQueries.default]: {
+    borderRadius: "25px",
+    margin: "0 0 3px",
+  }
 })
 
 class UsersItem extends Component {
@@ -37,15 +49,8 @@ class UsersItem extends Component {
 
     let userClass = "users-item";
     if (user.sticky) userClass += " users-sticky";
-
     return (
-      <div className={userClass} style={{
-        padding: "10px",
-        background: "#d2eff3",
-        margin: "0 0 3px",
-        color: "#212121",
-        borderRadius: "25px"
-      }}>
+      <UserDetailsWrapper className={userClass}>
 
         {/* <div className="posts-item-vote">
           <Components.Vote collection={Posts} document={post} currentUser={this.props.currentUser}/>
@@ -55,10 +60,47 @@ class UsersItem extends Component {
 
         <div className="posts-item-content">
           <UsersAvatar size="medium" user={user} link={false} imgStyles={{
-            display: "inline-block"
+            display: "inline-block",
+            float: "left",
+            position: "relative",
+            top: "-6px",
+            left: "-6px" ,
+            margin: "0 10px 0 0"
           }}/>
           <StyledUserDetails>
-          {user.displayName} {user.rollNoOrRegNo} {user.branch} {user.graduatingUser} {user.currentOccupation}
+            <div style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              // textAlign: "center"
+            }}>
+              <span style={{
+                // margin: "0 0 0 12px"
+              }}>
+                { user.displayName }
+              </span>     
+
+              <span style={{
+                margin: "0 0 0 15%"
+              }}>
+                { user.branch }
+              </span>    
+
+              <span style={{
+                margin: "0 0 0 15%"
+              }}>
+                { user.rollNoOrRegNo }
+              </span>          
+
+              <span style={{
+                margin: "0 5px 0 15%"
+              }}>
+                { user.graduatingYear }
+              </span>
+            </div>
+
+
+   
           </StyledUserDetails>
 
 {/*
@@ -85,7 +127,7 @@ class UsersItem extends Component {
 
         {/* {this.renderCommenters()} */}
 
-      </div>
+      </UserDetailsWrapper>
     )
   }
 }

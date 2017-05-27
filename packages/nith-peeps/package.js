@@ -17,6 +17,7 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles('lib/stylesheets/fix.css');
+  api.addFiles('lib/stylesheets/hamnav.css');
 
   api.addAssets([
     'lib/static/nith.jpg'

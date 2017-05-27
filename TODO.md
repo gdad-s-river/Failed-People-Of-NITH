@@ -29,3 +29,4 @@ availableForServices (long for "available"):
 ## FUN FEATURES : 
 
 - LIST OF ROLL DIRECTS BENEATH EVERY PROFILE
+- [Search Input Onfocus interaction animation](https://tympanus.net/Development/TextInputEffects/index2.html)

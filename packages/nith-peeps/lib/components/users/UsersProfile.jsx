@@ -18,7 +18,7 @@ const UsersProfile = (props) => {
   } else {
 
     const user = props.document;
-    console.log("userprofile:userdoc: ", user);
+    // console.log("userprofile:userdoc: ", user);
 
     return (
       <UsersDetails user={user} currentUser={props.currentUser} />

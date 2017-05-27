@@ -57,6 +57,7 @@
     "react-apollo": "^1.1.1",
     "react-bootstrap": "^0.30.7",
     "react-bootstrap-datetimepicker": "0.0.22",
+    "react-burger-menu": "^2.0.2",
     "react-cookie": "^0.4.6",
     "react-datetime": "^2.3.2",
     "react-dom": "^15.4.1",

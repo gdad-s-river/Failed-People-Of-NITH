@@ -11,9 +11,15 @@ import gql from 'graphql-tag';
 import LinkBare from '../common/LinkBare.jsx';
 import glamorous from 'glamorous';
 
+import mediaQueries from '../../modules/media-queries.js';
+
 const StyledUsersListContainer = glamorous.div({
-  width: "500px",
-  margin: "0 auto"
+  width: "auto",
+  [mediaQueries.default]: {
+    width: "500px"
+  },
+  margin: "0 auto",
+  // height: "100%"
 })
 
 const Error = ({error}) => <Alert className="flash-message" bsStyle="danger"><FormattedMessage id={error.id} values={{value: error.value}}/>{error.message}</Alert>
@@ -97,6 +103,7 @@ const options = {
   collection: Users,
   queryName: 'usersListQuery',
   fragment: mustCompleteFragment,
+  limit: 5
 };
 
 export default withList(options)(withCurrentUser(UsersList))

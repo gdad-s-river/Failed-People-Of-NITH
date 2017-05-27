@@ -47,6 +47,12 @@ table {
 	border-spacing: 0;
 }
 
+
+/*
+  either put this in another file
+  or rename this file
+*/
+
 .accounts-ui .buttons a {
   display: none;
 }
@@ -55,17 +61,18 @@ table {
   box-sizing: border-box;
 }
 
-/*
-  either put this in another file
-  or rename this file
-*/
-
 html, body {
   width: 100%;
+}
+
+html {
   height: 100%;
 }
 
-#react-app, 
-.wrapper {
+body {
+  min-height: 100%;
+}
+
+#react-app {
   height: 100%;
 }
