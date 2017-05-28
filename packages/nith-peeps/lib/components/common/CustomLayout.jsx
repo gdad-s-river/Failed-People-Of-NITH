@@ -64,7 +64,12 @@ const ListStyles = glamorous.li({
 })
 
  
-const HamBurgerSlider = ({currentUser, clickHandler, isOpen}) => {
+const HamBurgerSlider = ({currentUser, clickHandler, isOpen, location}) => {
+  const burgerStyles = {
+      bmBurgerBars: {
+        background: location.pathname === `/users/${currentUser.slug}/edit` ? "#000" : "#fdf9e8"
+      }
+  }
 
   const Menu = BurgerMenu['bubble'];
   return (
@@ -73,7 +78,8 @@ const HamBurgerSlider = ({currentUser, clickHandler, isOpen}) => {
       className="ham-menu" 
       id={'bubble'} 
       pageWrapId={'wrapper'} 
-      outerContainerId={'react-app'} 
+      outerContainerId={'react-app'}
+      styles={burgerStyles}
       left>
       <StyledUL>
         <ListStyles>
@@ -145,6 +151,7 @@ class CustomLayout extends Component  {
           currentUser={currentUser}
           clickHandler={this.closeSlider}
           isOpen={this.state.isOpen}
+          location={location}
           />: null}
         { currentUser ?
             <MustCompleteCheckRedir currentUser={currentUser} documentId={currentUser && currentUser._id} />

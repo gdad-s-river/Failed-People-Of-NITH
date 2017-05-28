@@ -125,7 +125,7 @@ const UsersDetails = ({user, currentUser}) => {
       <style type="text/css">
       {`
         body {
-          background: linear-gradient(to right, #fcfad0, #29ffc6)
+          background: linear-gradient(to right, #52cbd9, #c0ffae)
         }
         `
       }</style>

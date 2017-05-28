@@ -22,6 +22,7 @@ const UserDetailsWrapper = glamorous.div({
   [mediaQueries.default]: {
     borderRadius: "25px",
     margin: "0 0 3px",
+    padding: "10px",
   }
 })
 
@@ -88,21 +89,21 @@ class UsersItem extends Component {
 
               <span style={{
                 // margin: "0 0 0 15%"
-                paddingLeft: "3.5rem"
+                padding: "0 0 0 3.5rem"
               }}>
                 { user.branch }
               </span>    
 
               <span style={{
                 // margin: "0 0 0 15%"
-                paddingLeft: "3.5rem"
+                padding: "0 0 0 3.5rem"
               }}>
                 { user.rollNoOrRegNo }
               </span>          
 
               <span style={{
                 // margin: "0 5px 0 15%"
-                paddingLeft: "3.5rem"
+                padding: "0 0.5rem 0 3.5rem"
               }}>
                 { user.graduatingYear }
               </span>

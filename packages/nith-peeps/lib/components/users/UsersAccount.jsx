@@ -2,7 +2,7 @@ import { withCurrentUser } from 'meteor/vulcan:core';
 import UsersEditForm from './UsersEditForm.jsx';
 import React from 'react';
 // import { FormattedMessage, intlShape } from 'react-intl';
-import FlashMessages from '../common/FlashMessages.jsx'
+import FlashMessages from '../common/FlashMessages.jsx';
 
 const UsersAccount = (props, context) => {
   // note: terms is as the same as a document-shape the SmartForm edit-mode expects to receive
@@ -20,5 +20,6 @@ UsersAccount.propTypes = {
 };
 
 UsersAccount.displayName = "UsersAccount";
+
 
 export default withCurrentUser(UsersAccount);
