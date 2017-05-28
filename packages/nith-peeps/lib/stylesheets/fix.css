@@ -76,3 +76,28 @@ body {
 #react-app {
   height: 100%;
 }
+
+.users-load-more {
+  background: #fdf9e8;
+  padding: 10px;
+  position: relative;
+  top: 23px;
+  color: inherit;
+  text-decoration: none;
+  left: 29%;
+}
+
+@media screen and (min-width: 600px) {
+  .users-load-more {
+    left: 32%;
+  }
+}
+
+
+.users-no-more {
+  position: relative;
+  top: 23px;
+  color: inherit;
+  text-decoration: none;
+  left: 39%;
+}

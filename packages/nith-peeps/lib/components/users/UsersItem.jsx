@@ -10,7 +10,9 @@ const StyledUserDetails = glamorous.span({
   // position: "relative",
   // top: "-8px",
   // padding: "12px",
-  width: "100px"
+  width: "100%",
+  position: "relative",
+  top: "7px"
 })
 const UserDetailsWrapper = glamorous.div({
   padding: "15px",
@@ -58,20 +60,24 @@ class UsersItem extends Component {
 
         {/* {post.thumbnailUrl ? <Components.PostsThumbnail post={post}/> : null} */}
 
-        <div className="posts-item-content">
+        <div className="posts-item-content" style={{
+          display: "flex",
+          justifyContent: "flex-start"
+        }}>
           <UsersAvatar size="medium" user={user} link={false} imgStyles={{
-            display: "inline-block",
-            float: "left",
-            position: "relative",
-            top: "-6px",
-            left: "-6px" ,
-            margin: "0 10px 0 0"
+            // display: "inline-block",
+            // float: "left",
+            // position: "relative",
+            // top: "-6px",
+            // left: "-6px" ,
+            // margin: "0 10px 0 0"
           }}/>
           <StyledUserDetails>
             <div style={{
               display: "flex",
-              flexDirection: "row",
+              // flexDirection: "row",
               justifyContent: "flex-end",
+              flexWrap: "wrap"
               // textAlign: "center"
             }}>
               <span style={{
@@ -81,19 +87,22 @@ class UsersItem extends Component {
               </span>     
 
               <span style={{
-                margin: "0 0 0 15%"
+                // margin: "0 0 0 15%"
+                paddingLeft: "3.5rem"
               }}>
                 { user.branch }
               </span>    
 
               <span style={{
-                margin: "0 0 0 15%"
+                // margin: "0 0 0 15%"
+                paddingLeft: "3.5rem"
               }}>
                 { user.rollNoOrRegNo }
               </span>          
 
               <span style={{
-                margin: "0 5px 0 15%"
+                // margin: "0 5px 0 15%"
+                paddingLeft: "3.5rem"
               }}>
                 { user.graduatingYear }
               </span>

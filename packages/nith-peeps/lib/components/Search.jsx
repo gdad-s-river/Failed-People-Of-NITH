@@ -67,10 +67,7 @@ const StyledInput = glamorous(Input)({
       backgroundSize: "100% 5px, 100% 5px",
       outline: "none"
   },
-  textAlign: "center",
-  [mediaQueries.default]: {
-    textAlign: "unset"
-  }
+  textAlign: "center"
 });
 
 const SearchFormContainer = glamorous.div({

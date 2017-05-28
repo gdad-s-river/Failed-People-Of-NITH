@@ -59,25 +59,64 @@ StyledLink = glamorous(Link)({
   textDecoration: "none"
 })
 
+const ListStyles = glamorous.li({
+  padding: "10px"
+})
+
  
-const YeComponent = ({currentUser}) => {
-  console.log(currentUser);
-  const Menu = BurgerMenu['slide'];
+const HamBurgerSlider = ({currentUser, clickHandler, isOpen}) => {
+
+  const Menu = BurgerMenu['bubble'];
   return (
-    <Menu className="ham-menu" id={'slide'} pageWrapId={'wrapper'} outerContainerId={'react-app'} left>
+    <Menu
+      isOpen={isOpen}
+      className="ham-menu" 
+      id={'bubble'} 
+      pageWrapId={'wrapper'} 
+      outerContainerId={'react-app'} 
+      left>
       <StyledUL>
-        <li><StyledLink to="/">Home</StyledLink></li>
-        <li><StyledLink to="/complete-profile">Complete Profile</StyledLink></li>
-        <li><StyledLink to="/search">Search</StyledLink></li>
-        <li><StyledLink to={`/users/${currentUser.slug}`}>Profile</StyledLink></li>
-        <li><StyledLink to={`/users/${currentUser.slug}/edit`}>Profile Edit</StyledLink></li>
-        <li onClick={ () => Meteor.logout(() => window.location.reload() ) }>Sign Out </li>
+        <ListStyles>
+          <StyledLink onClick={clickHandler} to="/">Home</StyledLink>
+        </ListStyles>
+
+        <ListStyles>
+          <StyledLink onClick={clickHandler} to="/complete-profile">Complete Profile</StyledLink>
+        </ListStyles>
+
+        <ListStyles>
+          <StyledLink onClick={clickHandler} to="/search">Search</StyledLink>
+        </ListStyles>
+
+        <ListStyles>
+          <StyledLink onClick={clickHandler} to={`/users/${currentUser.slug}`}>Profile</StyledLink>
+        </ListStyles>
+
+        <ListStyles>
+          <StyledLink onClick={clickHandler} to={`/users/${currentUser.slug}/edit`}>Profile Edit</StyledLink>
+        </ListStyles>
+
+        <ListStyles onClick={ () => Meteor.logout(() => window.location.reload() ) }>
+          <span style={{
+            cursor: "pointer",
+            color: "#b8b7ad",
+            padding: "1em"
+          }}>
+            Sign Out
+          </span>
+         </ListStyles>
       </StyledUL> 
     </Menu>
   )
 }
 
 class CustomLayout extends Component  {
+  constructor(props, context) {
+    super(props, context);
+    this.state ={
+      isOpen: false
+    }
+  }
   // constructor(props, context) {
   //   super(props, context);
   //   console.log("props contructor ", props);
@@ -86,6 +125,12 @@ class CustomLayout extends Component  {
   // componentDidMount() {
   //   console.log(document.querySelector(".accounts-ui .buttons"))
   // }
+  
+  closeSlider() {
+    this.setState({
+      isOpen: true
+    })
+  }
 
   render() {
     const { searchBg, location, currentUser } = this.props;
@@ -96,7 +141,11 @@ class CustomLayout extends Component  {
         <Helmet>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
-        { currentUser ? <YeComponent currentUser={currentUser}/>: null}
+        { currentUser ? <HamBurgerSlider 
+          currentUser={currentUser}
+          clickHandler={this.closeSlider}
+          isOpen={this.state.isOpen}
+          />: null}
         { currentUser ?
             <MustCompleteCheckRedir currentUser={currentUser} documentId={currentUser && currentUser._id} />
           : null
