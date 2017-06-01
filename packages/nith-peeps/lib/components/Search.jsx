@@ -73,6 +73,20 @@ function buildBranches() {
 
   return list;
 }
+
+function buildYears() {
+  let lastValidYear = new Date().getFullYear() + 5;
+  let list = [{value: lastValidYear, label: "select-year", disabled:true}];
+  for (let i = 1986; i <= lastValidYear; i++) {
+    list.push({
+      value: i.toString(),
+      label: i
+    });
+  }
+
+  return list;
+}
+
 const { Input, Select } = FRC;
 
 const StyledInput = glamorous(Input)({
@@ -125,11 +139,14 @@ class Search extends Component{
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
+    // let lastValidYear = new Date().getFullYear() + 5;
     this.state = {
       search: props.router.location.query.query || '',
-      selectedBranch: ""
+      selectedBranch: "",
+      selectedYear: ''
     }
     this.branchSelectOnChangeHandler = this.branchSelectOnChangeHandler.bind(this)
+    this.yearSelectOnChangeHandler = this.yearSelectOnChangeHandler.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -156,29 +173,40 @@ class Search extends Component{
       }
 
       function branchQueryBuilder(){
-        return data.branch === '' ? routerQuery : { branch: data.branch}
+        return data.branch === '' ? routerQuery : { branch: data.branch }
       }
 
-      const query1 = _.extend( {}, searchQueryBuilder(), branchQueryBuilder())
-      console.log(query1);
+      function yearQueryBuilder() {
+        return data.graduatingYear === '' ? routerQuery : { graduatingYear: data.graduatingYear }
+      }
+
+      const query = _.extend( {}, searchQueryBuilder(), branchQueryBuilder(), yearQueryBuilder())
+      // console.log(query1);
 
     
 
-    const query = data.searchQuery === '' ? ( data.branch ? {...routerQuery, branch: branch } : routerQuery ) : {...routerQuery, query:data.searchQuery, branch: branch};
+    // const query1 = data.searchQuery === '' ? ( data.branch ? {...routerQuery, branch: branch } : routerQuery ) : {...routerQuery, query:data.searchQuery, branch: branch};
 
     // console.log("query ", query); 
 
     delay(() => {
-      router.push({pathname: "/search", query: query1});
+      router.push({pathname: "/search", query: query});
     }, 700 );
 
   }
 
   /* https://github.com/twisty/formsy-react-components/blob/master/src/components/select.js#L25 */
-  branchSelectOnChangeHandler(branchString, value) {
+  branchSelectOnChangeHandler(branchStringName, value) {
     // console.log(value)
     this.setState({
       selectedBranch: value
+    })
+  }
+
+  yearSelectOnChangeHandler(yearStringName, value) {
+    // console.log(typeof value);
+    this.setState({
+      selectedYear: value
     })
   }
 
@@ -221,19 +249,76 @@ class Search extends Component{
             name="branch" 
             options={buildBranches()}
             value={this.state.selectedBranch}
-            onChange= {this.branchSelectOnChangeHandler}/>
+            onChange= {this.branchSelectOnChangeHandler}/> 
+
+          <Select 
+            name="graduatingYear" 
+            options={buildYears()}
+            value={this.state.selectedYear}
+            onChange= {this.yearSelectOnChangeHandler}/>
 
           <button
             name="reset-branch-query"
             onClick={ (e) => {
               // console.log(e.target)
               this.setState({selectedBranch: ''})
-              const query = this.props.router.location.query.query;
+              // const query = this.props.router.location.query.query;
+
+              const {branch, ...rest} = this.props.router.location.query;
+
+              // console.log({pathname: "/search", query: {query} });
               // console.log(this.props.router.location.query.query);
-              this.props.router.replace({pathname: "/search", query: {query} });
+              this.props.router.replace({
+                pathname: "/search", 
+                query: {
+                  query: rest["query"],
+                  graduatingYear: rest["graduatingYear"]
+                } 
+              });
             }}>
               Remove Branch
             </button>
+
+            <button
+              name="reset-year-query"
+              onClick={ (e) => {
+                // console.log(e.target)
+                this.setState({selectedYear: ''})
+                // const query = this.props.router.location.query.query;
+                
+                // console.log("location query ", this.props.router.location.query);
+                const {graduatingYear, ...rest} = this.props.router.location.query;
+                
+                // console.log("rest", rest);
+                let keys = Object.keys(rest);
+
+                let queryObj = keys.map(el => {
+                  return {
+                    [el]: rest[el]
+                  }
+                })
+          
+                // console.log(queryObj);
+
+                // let pushValue = _.extend({}, {
+                //     pathname: "/search",
+                //   },
+                //   {branch: {branch: rest["branch"]}},
+                //   {query: {query: rest["query"]}}
+                //   )
+
+                // console.log(pushValue);
+
+                this.props.router.push({
+                  pathname: "/search",
+                  query: {
+                    query: rest["query"],
+                    branch: rest["branch"]
+                  }
+                });
+              }}>
+                Remove Year
+              </button>
 
           <BorderAnimeSpan className="border-bottom-anime"></BorderAnimeSpan>
           {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}

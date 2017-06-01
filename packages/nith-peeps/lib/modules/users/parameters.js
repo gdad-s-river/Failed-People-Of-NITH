@@ -26,7 +26,7 @@ function addSearchQueryParameter (parameters, terms) {
   return parameters;
 }
 
-function addSearchBranchParameter(parameters, terms) {
+function addBranchParameter(parameters, terms) {
     if(!!terms.branch) {
     const branch = escapeStringRegexp(terms.branch);
 
@@ -39,5 +39,22 @@ function addSearchBranchParameter(parameters, terms) {
   return parameters;
 }
 
-addCallback("users.parameters", addSearchBranchParameter)
+function addYearParameter(parameters, terms) {
+  console.log(typeof terms.graduatingYear)
+  if(!!terms.graduatingYear) {
+    const yearString = escapeStringRegexp(terms.graduatingYear);
+    const year = parseInt(yearString);
+    
+
+    parameters = Utils.deepExtend(true, parameters, {
+      selector: {
+        graduatingYear: year
+      }
+    });
+  }
+  return parameters;
+}
+
+addCallback("users.parameters", addBranchParameter)
+addCallback("users.parameters", addYearParameter)
 addCallback("users.parameters", addSearchQueryParameter);
