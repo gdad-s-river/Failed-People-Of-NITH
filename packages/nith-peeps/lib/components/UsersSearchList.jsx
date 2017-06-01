@@ -9,6 +9,7 @@ const UsersListWrapper =  glamorous.div({
 })
 
 const UsersSearchList = (props, context) => {
+  // console.log(props.location.query);
   const terms = _.isEmpty(props.location && props.location.query) ? {}: props.location.query;
   // console.log("UsersSearchList:terms ", terms);
   if(props.currentUser) {

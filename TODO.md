@@ -18,6 +18,8 @@ const mustCompleteFragment1 = gql`
 `
 ```
 
+- Link preload font fetches 
+
 -
 ---
 
@@ -30,3 +32,7 @@ availableForServices (long for "available"):
 
 - LIST OF ROLL DIRECTS BENEATH EVERY PROFILE
 - [Search Input Onfocus interaction animation](https://tympanus.net/Development/TextInputEffects/index2.html)
+
+## GENERAL CURIOUS STUFF:
+
+- What can be done with HTTP push?

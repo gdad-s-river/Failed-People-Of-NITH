@@ -42,7 +42,38 @@ addReducer({
 
 // --------------- END OF REDUX THINGS ------------- //
 
-const Input = FRC.Input;
+// TODO: us repeated from user-custom-fields, 
+// put this in a separate file and reuse 
+// at both places.
+
+function buildBranches() {
+  let list = [{value: "select-branch", label: "select-branch", disabled:true}];
+  let branches = new Set([
+    "ECE",
+    "MED",
+    "Archi",
+    "EEE",
+    "Civil",
+    "CSE",
+    "Chemistry",
+    "Chemical",
+    "Mathematics",
+    "Physics",
+    "CEE",
+    "Mgtm & Humanity",
+    "CMSE"
+  ])
+
+  for (let branch of branches) {
+    list.push({
+      value: branch,
+      label: branch
+    })
+  }
+
+  return list;
+}
+const { Input, Select } = FRC;
 
 const StyledInput = glamorous(Input)({
   fontSmoothing: "antialiased",
@@ -95,8 +126,10 @@ class Search extends Component{
     super(props);
     this.search = this.search.bind(this);
     this.state = {
-      search: props.router.location.query.query || ''
+      search: props.router.location.query.query || '',
+      selectedBranch: ""
     }
+    this.branchSelectOnChangeHandler = this.branchSelectOnChangeHandler.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -107,16 +140,46 @@ class Search extends Component{
 
   search(data) {
 
+    // console.log("data is: ", data);
+
     const router = this.props.router;
     const routerQuery = _.clone(router.location.query);
-    delete routerQuery.query;
 
-    const query = data.searchQuery === '' ? routerQuery : {...routerQuery, query:data.searchQuery}; 
+    // console.log("router query: ", routerQuery);
+    delete routerQuery.query;
+    
+    const branch = data.branch || "";
+
+
+      function searchQueryBuilder() {
+        return data.searchQuery === '' ? routerQuery : { ...routerQuery, query: data.searchQuery }
+      }
+
+      function branchQueryBuilder(){
+        return data.branch === '' ? routerQuery : { branch: data.branch}
+      }
+
+      const query1 = _.extend( {}, searchQueryBuilder(), branchQueryBuilder())
+      console.log(query1);
+
+    
+
+    const query = data.searchQuery === '' ? ( data.branch ? {...routerQuery, branch: branch } : routerQuery ) : {...routerQuery, query:data.searchQuery, branch: branch};
+
+    // console.log("query ", query); 
 
     delay(() => {
-      router.push({pathname: "/search", query: query});
+      router.push({pathname: "/search", query: query1});
     }, 700 );
 
+  }
+
+  /* https://github.com/twisty/formsy-react-components/blob/master/src/components/select.js#L25 */
+  branchSelectOnChangeHandler(branchString, value) {
+    // console.log(value)
+    this.setState({
+      selectedBranch: value
+    })
   }
 
   render() {
@@ -154,8 +217,27 @@ class Search extends Component{
             onFocus={() => setBackground(onFocusSearchBg)}
             onBlur={() => setBackground(defaultSearchBg)}
           />
+          <Select 
+            name="branch" 
+            options={buildBranches()}
+            value={this.state.selectedBranch}
+            onChange= {this.branchSelectOnChangeHandler}/>
+
+          <button
+            name="reset-branch-query"
+            onClick={ (e) => {
+              // console.log(e.target)
+              this.setState({selectedBranch: ''})
+              const query = this.props.router.location.query.query;
+              // console.log(this.props.router.location.query.query);
+              this.props.router.replace({pathname: "/search", query: {query} });
+            }}>
+              Remove Branch
+            </button>
+
           <BorderAnimeSpan className="border-bottom-anime"></BorderAnimeSpan>
           {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}
+
         </Formsy.Form>
       </SearchFormContainer>
     )
