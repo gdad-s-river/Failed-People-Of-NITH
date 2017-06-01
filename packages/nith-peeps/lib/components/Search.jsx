@@ -211,6 +211,16 @@ class Search extends Component{
   }
 
   render() {
+
+    const buttonStyles = {
+      fontFamily: "inherit",
+      background: "#5cd9d9",
+      border: 0,
+      padding: "10px",
+      fontSize: "1rem",
+      margin: "10px 10px 0 0",
+      width: "150px"
+    }
     const resetQuery = _.clone(this.props.location.query);
     delete resetQuery.query;
 
@@ -245,80 +255,88 @@ class Search extends Component{
             onFocus={() => setBackground(onFocusSearchBg)}
             onBlur={() => setBackground(defaultSearchBg)}
           />
-          <Select 
-            name="branch" 
-            options={buildBranches()}
-            value={this.state.selectedBranch}
-            onChange= {this.branchSelectOnChangeHandler}/> 
 
-          <Select 
-            name="graduatingYear" 
-            options={buildYears()}
-            value={this.state.selectedYear}
-            onChange= {this.yearSelectOnChangeHandler}/>
+          <div className="filter-options" style={{
+            textAlign: "center", 
+            fontFamily: "Raleway, Arial, sans-serif"
+          }}>
+            <Select 
+              name="branch" 
+              options={buildBranches()}
+              value={this.state.selectedBranch}
+              onChange= {this.branchSelectOnChangeHandler}/> 
 
-          <button
-            name="reset-branch-query"
-            onClick={ (e) => {
-              // console.log(e.target)
-              this.setState({selectedBranch: ''})
-              // const query = this.props.router.location.query.query;
-
-              const {branch, ...rest} = this.props.router.location.query;
-
-              // console.log({pathname: "/search", query: {query} });
-              // console.log(this.props.router.location.query.query);
-              this.props.router.replace({
-                pathname: "/search", 
-                query: {
-                  query: rest["query"],
-                  graduatingYear: rest["graduatingYear"]
-                } 
-              });
-            }}>
-              Remove Branch
-            </button>
+            <Select 
+              name="graduatingYear" 
+              options={buildYears()}
+              value={this.state.selectedYear}
+              onChange= {this.yearSelectOnChangeHandler}/>
 
             <button
-              name="reset-year-query"
+              name="reset-branch-query"
+              style={buttonStyles}
               onClick={ (e) => {
                 // console.log(e.target)
-                this.setState({selectedYear: ''})
+                this.setState({selectedBranch: ''})
                 // const query = this.props.router.location.query.query;
-                
-                // console.log("location query ", this.props.router.location.query);
-                const {graduatingYear, ...rest} = this.props.router.location.query;
-                
-                // console.log("rest", rest);
-                let keys = Object.keys(rest);
 
-                let queryObj = keys.map(el => {
-                  return {
-                    [el]: rest[el]
-                  }
-                })
-          
-                // console.log(queryObj);
+                const {branch, ...rest} = this.props.router.location.query;
 
-                // let pushValue = _.extend({}, {
-                //     pathname: "/search",
-                //   },
-                //   {branch: {branch: rest["branch"]}},
-                //   {query: {query: rest["query"]}}
-                //   )
-
-                // console.log(pushValue);
-
-                this.props.router.push({
-                  pathname: "/search",
+                // console.log({pathname: "/search", query: {query} });
+                // console.log(this.props.router.location.query.query);
+                this.props.router.replace({
+                  pathname: "/search", 
                   query: {
                     query: rest["query"],
-                    branch: rest["branch"]
-                  }
+                    graduatingYear: rest["graduatingYear"]
+                  } 
                 });
               }}>
-                Remove Year
+                Reset Branch
               </button>
+
+              <button
+                name="reset-year-query"
+                style={buttonStyles}
+                onClick={ (e) => {
+                  // console.log(e.target)
+                  this.setState({selectedYear: ''})
+                  // const query = this.props.router.location.query.query;
+                  
+                  // console.log("location query ", this.props.router.location.query);
+                  const {graduatingYear, ...rest} = this.props.router.location.query;
+                  
+                  // console.log("rest", rest);
+                  let keys = Object.keys(rest);
+
+                  let queryObj = keys.map(el => {
+                    return {
+                      [el]: rest[el]
+                    }
+                  })
+            
+                  // console.log(queryObj);
+
+                  // let pushValue = _.extend({}, {
+                  //     pathname: "/search",
+                  //   },
+                  //   {branch: {branch: rest["branch"]}},
+                  //   {query: {query: rest["query"]}}
+                  //   )
+
+                  // console.log(pushValue);
+
+                  this.props.router.push({
+                    pathname: "/search",
+                    query: {
+                      query: rest["query"],
+                      branch: rest["branch"]
+                    }
+                  });
+                }}>
+                  Reset Year
+              </button>
+             </div>
 
           <BorderAnimeSpan className="border-bottom-anime"></BorderAnimeSpan>
           {this.state.search !== '' ? <Link className="search-form-reset" to={{pathname: '/', query: resetQuery}}><Components.Icon name="close" /></Link> : null}
