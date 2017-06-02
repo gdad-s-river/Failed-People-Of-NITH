@@ -1,8 +1,9 @@
 import { Components, registerComponent, withList, withCurrentUser, Utils } from 'meteor/vulcan:core';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Posts from 'meteor/vulcan:posts';
-import { Alert } from 'react-bootstrap';
-import { FormattedMessage, intlShape } from 'react-intl';
+import Alert from 'react-bootstrap/lib/Alert'
+import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
 import classNames from 'classnames';
 
 const Error = ({error}) => <Alert className="flash-message" bsStyle="danger"><FormattedMessage id={error.id} values={{value: error.value}}/>{error.message}</Alert>
@@ -52,14 +53,14 @@ const PostsList = ({className, results, loading, count, totalCount, loadMore, sh
 PostsList.displayName = "PostsList";
 
 PostsList.propTypes = {
-  results: React.PropTypes.array,
-  terms: React.PropTypes.object,
-  hasMore: React.PropTypes.bool,
-  loading: React.PropTypes.bool,
-  count: React.PropTypes.number,
-  totalCount: React.PropTypes.number,
-  loadMore: React.PropTypes.func,
-  showHeader: React.PropTypes.bool,
+  results: PropTypes.array,
+  terms: PropTypes.object,
+  hasMore: PropTypes.bool,
+  loading: PropTypes.bool,
+  count: PropTypes.number,
+  totalCount: PropTypes.number,
+  loadMore: PropTypes.func,
+  showHeader: PropTypes.bool,
 };
 
 PostsList.contextTypes = {

@@ -1,8 +1,9 @@
-import React, { PropTypes, Component } from 'react';
-import { Modal } from 'react-bootstrap';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-bootstrap/lib/Modal'
 import Users from 'meteor/vulcan:users';
 import { withDocument, Components, registerComponent, withMessages } from 'meteor/vulcan:core';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
 import { gql } from 'react-apollo';
 
 const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => {
@@ -56,15 +57,16 @@ const UsersProfileCheck = ({currentUser, document, loading, flash}, context) => 
 
 };
 
-UsersProfileCheck.propsTypes = {
-  currentUser: React.PropTypes.object
+
+UsersProfileCheck.propTypes = {
+  currentUser: PropTypes.object
 };
 
 UsersProfileCheck.contextTypes = {
   intl: intlShape
 };
 
-UsersProfileCheck.displayName = "UsersProfileCheck";
+UsersProfileCheck.displayName = 'UsersProfileCheck';
 
 const mustCompleteFragment = gql`
   fragment UsersMustCompleteFragment on User {

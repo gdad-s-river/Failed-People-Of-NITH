@@ -1,7 +1,5 @@
-import { Components, withCurrentUser } from 'meteor/vulcan:core';
+import { Components, registerComponent, withCurrentUser } from 'meteor/vulcan:core';
 import React from 'react';
-
-import glamorous from 'glamorous';
 
 const UsersAccount = (props, context) => {
   // note: terms is as the same as a document-shape the SmartForm edit-mode expects to receive
@@ -15,10 +13,4 @@ UsersAccount.propTypes = {
 
 UsersAccount.displayName = "UsersAccount";
 
-const StyledUsersAccount = glamorous(UsersAccount)({
-  display: "none"
-})
-
-// registerComponent('UsersAccount', UsersAccount, withCurrentUser);
-
-export default withCurrentUser(StyledUsersAccount);
+registerComponent('UsersAccount', UsersAccount, withCurrentUser);
