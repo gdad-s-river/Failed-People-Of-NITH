@@ -2,7 +2,7 @@ import { Components, withList, withCurrentUser, Utils, getFragment } from 'meteo
 import React from 'react';
 import Users from 'meteor/vulcan:users';
 import { Alert } from 'react-bootstrap';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
 import UsersItem from "./UsersItem.jsx";
 import UsersLoadMore from "./UsersLoadMore.jsx";
 import UsersNoMore from "./UsersNoMore.jsx";
@@ -18,7 +18,7 @@ const StyledUsersListContainer = glamorous.div({
   [mediaQueries.default]: {
     width: "500px"
   },
-  margin: "0 auto",
+  margin: "-30px auto 0",
   // height: "100%"
 })
 

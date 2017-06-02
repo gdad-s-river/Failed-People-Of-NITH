@@ -3,7 +3,7 @@ import HeadTags from '../common/HeadTags.jsx';
 import { Components } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
 import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'meteor/vulcan:i18n';
 import Bold from '../style/Bold.jsx';
 import UsersAvatar from './UsersAvatar';
 import {Utils} from 'meteor/vulcan:core';
@@ -71,6 +71,7 @@ const StyledHTMLBio = glamorous.div({
   width: "250px",
   textAlign: "justify",
   padding: "0 0 25px",
+  lineHeight: "1.5rem",
   [mediaQueries.default]: {
     maxWidth: "500px",
     width: "auto",

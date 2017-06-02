@@ -166,6 +166,8 @@ let fieldSchemaMapping = {
       }
     },
   },
+
+  // had to repeat this from vulcan and change just one setting 'viewableBy' to let any loggedin user access any user's email 
   email: {
     type: String,
     optional: true,

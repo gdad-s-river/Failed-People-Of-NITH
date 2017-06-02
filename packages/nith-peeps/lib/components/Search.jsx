@@ -15,8 +15,20 @@ import Helmet from 'react-helmet';
 
 import mediaQueries from '../modules/media-queries.js';
 
+import Media from 'react-media';
+
 const  defaultSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
 const  onFocusSearchBg = "linear-gradient(to left, #2c3e50, #4ca1af)";
+
+// const links = [
+//   // note: modal popups won't work with anything above alpha.5. 
+//   // see https://github.com/twbs/bootstrap/issues/21876#issuecomment-276181539
+//   {
+//     rel: 'stylesheet',
+//     type: 'text/css',
+//     href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css'
+//   }
+// ];
 
 addAction({
   searchBg: {
@@ -219,8 +231,39 @@ class Search extends Component{
       padding: "10px",
       fontSize: "1rem",
       margin: "10px 10px 0 0",
-      width: "150px"
+      width: "155px"
     }
+
+    const leftButtonStyles = {
+      margin: "10px 10px 0 11px"
+    }
+
+    const selectStyles = {
+      height: "calc(2.5rem - 2px)",
+      width: "42%",
+      padding: ".5rem .75rem",
+      fontSize: "1rem",
+      lineHeight: "1.25",
+      color: "#55595c",
+      backgroundColor: "#9cfbff",
+      backgroundImage: "none",
+      backgroundClip: "padding-box",
+      border: "1px solid rgba(0,0,0,.15)",
+      borderRadius: ".25rem",
+      margin: "3px 0",
+      // "@media(minWidth: 600px)": {
+      //   width: "30%"
+      // }
+    }
+
+    const upperSelectStyles = {
+      margin: "20px 0 0",
+    }
+
+    const mediaSelectStyles = {
+      width: "30%"
+    }
+
     const resetQuery = _.clone(this.props.location.query);
     delete resetQuery.query;
 
@@ -260,21 +303,50 @@ class Search extends Component{
             textAlign: "center", 
             fontFamily: "Raleway, Arial, sans-serif"
           }}>
-            <Select 
-              name="branch" 
-              options={buildBranches()}
-              value={this.state.selectedBranch}
-              onChange= {this.branchSelectOnChangeHandler}/> 
 
-            <Select 
-              name="graduatingYear" 
-              options={buildYears()}
-              value={this.state.selectedYear}
-              onChange= {this.yearSelectOnChangeHandler}/>
+            <div className="dropdown-filter-container">
+          {/* TOO MUCH REPETITION HERE, SEPARATE SELECT COMPONENT IN ITS OWN MODULE*/}
+              <Media query="(min-width: 600px)">
+                {matches => matches ? (
+                <div>
+                  <Select 
+                    name="branch" 
+                    options={buildBranches()}
+                    value={this.state.selectedBranch}
+                    onChange= {this.branchSelectOnChangeHandler}
+                    style={{...selectStyles, ...upperSelectStyles, ...mediaSelectStyles}}/> 
+
+                  <Select 
+                    name="graduatingYear" 
+                    options={buildYears()}
+                    value={this.state.selectedYear}
+                    onChange= {this.yearSelectOnChangeHandler}
+                    style={{...selectStyles, ...mediaSelectStyles}}/>
+                </div>
+                ) : (
+                <div>
+                  <Select 
+                    name="branch" 
+                    options={buildBranches()}
+                    value={this.state.selectedBranch}
+                    onChange= {this.branchSelectOnChangeHandler}
+                    style={{...selectStyles, ...upperSelectStyles}}/> 
+
+                  <Select 
+                    name="graduatingYear" 
+                    options={buildYears()}
+                    value={this.state.selectedYear}
+                    onChange= {this.yearSelectOnChangeHandler}
+                    style={selectStyles}/>
+                 </div>
+                )}
+              </Media>
+            </div>
+            
 
             <button
               name="reset-branch-query"
-              style={buttonStyles}
+              style={{...buttonStyles, ...leftButtonStyles}}
               onClick={ (e) => {
                 // console.log(e.target)
                 this.setState({selectedBranch: ''})

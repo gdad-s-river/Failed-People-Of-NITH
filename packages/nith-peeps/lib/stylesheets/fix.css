@@ -91,10 +91,10 @@ body {
 
 @media screen and (min-width: 600px) {
   .users-load-more {
-    left: 32%;
+/*    left: 32%;
     display: inline;
     position: relative;
-    top: 34px;
+    top: 34px;*/
   }
 }
 

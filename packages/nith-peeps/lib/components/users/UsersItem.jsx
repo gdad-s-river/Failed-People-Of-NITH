@@ -1,6 +1,6 @@
 import { Components, ModalTrigger } from 'meteor/vulcan:core';
 import React, { PropTypes, Component } from 'react';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelative } from 'meteor/vulcan:i18n';
 import Users from "meteor/vulcan:users";
 import UsersAvatar from './UsersAvatar'
 import glamorous from 'glamorous';

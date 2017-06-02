@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Users from 'meteor/vulcan:users';
 import { withDocument, Components, registerComponent, withMessages } from 'meteor/vulcan:core';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'meteor/vulcan:i18n';
 import { gql } from 'react-apollo';
 import { browserHistory } from 'react-router';
 import glamorous from 'glamorous';
