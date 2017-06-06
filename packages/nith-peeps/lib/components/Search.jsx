@@ -181,18 +181,25 @@ class Search extends Component{
 
 
       function searchQueryBuilder() {
-        return data.searchQuery === '' ? routerQuery : { ...routerQuery, query: data.searchQuery }
+        // if(data.)
+        return data.searchQuery === '' ? '' : { ...routerQuery, query: data.searchQuery }
       }
 
       function branchQueryBuilder(){
-        return data.branch === '' ? routerQuery : { branch: data.branch }
+        return data.branch === '' ? '' : { ...routerQuery, branch: data.branch }
       }
 
       function yearQueryBuilder() {
-        return data.graduatingYear === '' ? routerQuery : { graduatingYear: data.graduatingYear }
+        return data.graduatingYear === '' ? '' : { ...routerQuery, graduatingYear: data.graduatingYear }
       }
+      
+      console.log("SearchQueryBuilder ", searchQueryBuilder());
+      console.log("branchQueryBuilder ", branchQueryBuilder());
+      console.log("yearQueryBuilder ", yearQueryBuilder());
+      console.log("routerQuery", routerQuery);
 
-      const query = _.extend( {}, searchQueryBuilder(), branchQueryBuilder(), yearQueryBuilder())
+      const query = _.extend( {}, routerQuery, searchQueryBuilder(), branchQueryBuilder(), yearQueryBuilder())
+      // console.log(query);
       // console.log(query1);
 
     
