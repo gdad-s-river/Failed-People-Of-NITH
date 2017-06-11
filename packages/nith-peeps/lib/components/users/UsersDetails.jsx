@@ -229,7 +229,7 @@ const UsersDetails = ({ user, currentUser }) => {
 							</StyledUserListItem>
 						: null}
 				</ul>
-				{user._id === currentUser._id
+				{user._id === currentUser._id || user.isAdmin
 					? null
 					: <UsersFlag
 							userToFlagDoc={user}
