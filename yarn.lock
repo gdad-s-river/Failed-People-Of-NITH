@@ -1641,7 +1641,11 @@ fast-memoize@^2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.2.7.tgz#f145c5c22039cedf0a1d4ff6ca592ad0268470ca"
 
+<<<<<<< HEAD
 fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.8, fbjs@^0.8.9:
+=======
+fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
+>>>>>>> devel
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -3067,7 +3071,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.8:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:

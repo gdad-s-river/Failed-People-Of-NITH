@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import Formsy from "formsy-react";
 import FRC from "formsy-react-components";
 import { intlShape } from "meteor/vulcan:i18n";
 import DateTime from "./DateTime.jsx";
+import classNames from "classnames";
 
 // import Utils from './utils.js';
 
@@ -18,6 +18,13 @@ class FormComponent extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.handleBlur = this.handleBlur.bind(this);
+		this.updateCharacterCount = this.updateCharacterCount.bind(this);
+
+		if (props.limit) {
+			this.state = {
+				limit: props.value ? props.limit - props.value.length : props.limit,
+			};
+		}
 	}
 
 	handleBlur() {
@@ -25,6 +32,14 @@ class FormComponent extends PureComponent {
 		if (this.formControl !== null) {
 			this.props.updateCurrentValues({
 				[this.props.name]: this.formControl.getValue(),
+			});
+		}
+	}
+
+	updateCharacterCount(name, value) {
+		if (this.props.limit) {
+			this.setState({
+				limit: this.props.limit - value.length,
 			});
 		}
 	}
@@ -38,6 +53,7 @@ class FormComponent extends PureComponent {
 			document,
 			beforeComponent,
 			afterComponent,
+			limit,
 			...rest
 		} = this.props; // eslint-disable-line
 
@@ -57,9 +73,17 @@ class FormComponent extends PureComponent {
 
 			switch (this.props.control) {
 				case "text":
-					return <Input {...properties} type="text" />;
+					return (
+						<Input
+							{...properties}
+							type="text"
+							onChange={this.updateCharacterCount}
+						/>
+					);
 				case "textarea":
-					return <Textarea {...properties} />;
+					return (
+						<Textarea {...properties} onChange={this.updateCharacterCount} />
+					);
 				case "checkbox":
 					return <Checkbox {...properties} />;
 				case "checkboxgroup":
@@ -95,9 +119,18 @@ class FormComponent extends PureComponent {
 
 	render() {
 		return (
-			<div className={"input-" + this.props.name}>
+			<div className={classNames("form-input", `input-${this.props.name}`)}>
 				{this.props.beforeComponent ? this.props.beforeComponent : null}
 				{this.renderComponent()}
+				{this.props.limit
+					? <div
+							className={classNames("form-control-limit", {
+								danger: this.state.limit < 10,
+							})}
+						>
+							{this.state.limit}
+						</div>
+					: null}
 				{this.props.afterComponent ? this.props.afterComponent : null}
 			</div>
 		);

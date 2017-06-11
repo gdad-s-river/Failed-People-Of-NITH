@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getSetting, Strings } from 'meteor/vulcan:lib';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { getSetting, Strings } from "meteor/vulcan:lib";
 
-import { intlShape } from './shape.js';
+import { intlShape } from "./shape.js";
 
-export default class IntlProvider extends Component{
-  
-  constructor(){
+export default class IntlProvider extends Component {
+  constructor() {
     super();
     this.formatMessage = this.formatMessage.bind(this);
   }
 
   formatMessage({ id, defaultMessage }, values) {
-    const messages = Strings[getSetting('locale', 'en')] || {};
-    let message = messages[id];
-    if(!message) {
-      message = defaultMessage;
-    }
+    const messages = Strings[getSetting("locale", "en")] || {};
+    let message = messages[id] || defaultMessage;
     if (values) {
       _.forEach(values, (value, key) => {
         message = message.replace(`{${key}}`, value);
@@ -36,20 +32,19 @@ export default class IntlProvider extends Component{
         formatTime: this.formatStuff,
         formatRelative: this.formatStuff,
         formatNumber: this.formatStuff,
-        formatPlural: this.formatStuff, 
+        formatPlural: this.formatStuff,
         formatMessage: this.formatMessage,
         formatHTMLMessage: this.formatStuff,
         now: this.formatStuff,
-      }
+      },
     };
   }
-  
-  render(){
+
+  render() {
     return this.props.children;
   }
-
 }
 
 IntlProvider.childContextTypes = {
-  intl: intlShape
-}
+  intl: intlShape,
+};

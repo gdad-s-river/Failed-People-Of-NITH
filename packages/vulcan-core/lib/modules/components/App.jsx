@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { IntlProvider, intlShape} from 'meteor/vulcan:i18n';
 import withCurrentUser from '../containers/withCurrentUser.js';
 
-import { FormattedMessage } from 'meteor/vulcan:i18n';
-
 class App extends PureComponent {
 
   getLocale() {
@@ -25,7 +23,7 @@ class App extends PureComponent {
   render() {
     return (
       <IntlProvider locale={this.getLocale()} messages={Strings[this.getLocale()]}>
-        <Components.Layout>
+        <Components.Layout {...this.props} >
           { this.props.currentUserLoading ? <Components.Loading /> : this.props.children }
         </Components.Layout>
       </IntlProvider>
