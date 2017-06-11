@@ -1,4 +1,4 @@
-import { registerFragment, getFragment } from 'meteor/vulcan:core';
+import { registerFragment, getFragment } from "meteor/vulcan:core";
 
 // ------------------------------ Vote ------------------------------ //
 
@@ -26,7 +26,6 @@ registerFragment(`
   }
 `);
 
-
 registerFragment(`
   fragment UsersMustHaveFields on User {
     _id
@@ -38,13 +37,24 @@ registerFragment(`
     email
     availableForServices
   }
-`)
+`);
+
+registerFragment(`
+  fragment FlagFields on User {
+    flagVotes,
+    flagVoters {
+      _id
+    },
+    flagVotedUsers
+  }
+`);
 
 registerFragment(`
   fragment UsersProfile on User {
     # vulcan:users
     ...UsersMinimumInfo
     ...UsersMustHaveFields
+    ...FlagFields
     createdAt
     isAdmin
     bio

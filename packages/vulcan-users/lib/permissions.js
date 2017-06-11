@@ -247,8 +247,6 @@ Users.restrictViewableFields = function (user, collection, docOrDocs) {
  * @param {Object} field - The field being edited or inserted
  */
 Users.canInsertField = function (user, field) {
-  console.log("USER ", user);
-  console.log("FIELD INSERTABLE BY ", field.insertableBy);
   if (user && field.insertableBy) {
     return typeof field.insertableBy === 'function' ? field.insertableBy(user) : Users.isMemberOf(user, field.insertableBy)
   }

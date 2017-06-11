@@ -8,6 +8,7 @@
 - Register a fragment that is being used multiple times
 - Implement infinite scroll instead of pagination
 - add custom labels for necessary fields (to include a star).
+- Handle Uncompleted Profile (When a user logs out before completing a profile): check this in the UsersList component
 
 ```javascript
 const mustCompleteFragment1 = gql`

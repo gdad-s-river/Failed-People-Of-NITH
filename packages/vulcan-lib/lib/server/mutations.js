@@ -27,47 +27,57 @@ to the client.
 
 */
 
-import { Utils, runCallbacks, runCallbacksAsync } from '../modules/index.js';
+import { Utils, runCallbacks, runCallbacksAsync } from "../modules/index.js";
 
-export const newMutation = ({ collection, document, currentUser, validate, context }) => {
-
-  // console.log("// newMutation")
-  // console.log(collection._name)
-  // console.log(document)
-
+export const newMutation = ({
+  collection,
+  document,
+  currentUser,
+  validate,
+  context,
+}) => {
   // we don't want to modify the original document
   let newDocument = Object.assign({}, document);
-  
+
   const collectionName = collection._name;
   const schema = collection.simpleSchema()._schema;
 
   // if document is not trusted, run validation steps
   if (validate) {
-
     // validate document
     collection.simpleSchema().validate(document);
 
     // check that the current user has permission to insert each field
     _.keys(newDocument).forEach(fieldName => {
       var field = schema[fieldName];
-      if (!field || !context.Users.canInsertField (currentUser, field)) {
-        throw new Error(Utils.encodeIntlError({id: 'app.disallowed_property_detected', value: fieldName}));
+      if (!field || !context.Users.canInsertField(currentUser, field)) {
+        throw new Error(
+          Utils.encodeIntlError({
+            id: "app.disallowed_property_detected",
+            value: fieldName,
+          }),
+        );
       }
     });
 
     // run validation callbacks
-    newDocument = runCallbacks(`${collectionName}.new.validate`, newDocument, currentUser);
+    newDocument = runCallbacks(
+      `${collectionName}.new.validate`,
+      newDocument,
+      currentUser,
+    );
   }
-  
+
   // check if userId field is in the schema and add it to document if needed
-  const userIdInSchema = Object.keys(schema).find(key => key === 'userId');
-  if (!!userIdInSchema && !newDocument.userId) newDocument.userId = currentUser._id;
+  const userIdInSchema = Object.keys(schema).find(key => key === "userId");
+  if (!!userIdInSchema && !newDocument.userId)
+    newDocument.userId = currentUser._id;
 
   // run onInsert step
   _.keys(schema).forEach(fieldName => {
     if (schema[fieldName].onInsert) {
       const autoValue = schema[fieldName].onInsert(newDocument, currentUser);
-      if (autoValue) {
+      if (typeof autoValue !== "undefined") {
         newDocument[fieldName] = autoValue;
       }
     }
@@ -80,7 +90,11 @@ export const newMutation = ({ collection, document, currentUser, validate, conte
   // }
 
   // run sync callbacks
-  newDocument = runCallbacks(`${collectionName}.new.sync`, newDocument, currentUser);
+  newDocument = runCallbacks(
+    `${collectionName}.new.sync`,
+    newDocument,
+    currentUser,
+  );
 
   // add _id to document
   newDocument._id = collection.insert(newDocument);
@@ -90,56 +104,73 @@ export const newMutation = ({ collection, document, currentUser, validate, conte
 
   // run async callbacks
   // note: query for document to get fresh document with collection-hooks effects applied
-  runCallbacksAsync(`${collectionName}.new.async`, insertedDocument, currentUser, collection);
-
-  // console.log("// new mutation finished:")
-  // console.log(newDocument)
+  runCallbacksAsync(
+    `${collectionName}.new.async`,
+    insertedDocument,
+    currentUser,
+    collection,
+  );
 
   return newDocument;
-}
+};
 
-export const editMutation = ({ collection, documentId, set, unset, currentUser, validate, context }) => {
-
-  // console.log("// editMutation")
-  // console.log(collection._name)
-  // console.log(documentId)
-  // console.log(set)
-  // console.log(unset)
-
+export const editMutation = ({
+  collection,
+  documentId,
+  set,
+  unset,
+  currentUser,
+  validate,
+  context,
+}) => {
   const collectionName = collection._name;
   const schema = collection.simpleSchema()._schema;
 
   // build mongo modifier from arguments
-  let modifier = {$set: set, $unset: unset};
+  let modifier = { $set: set, $unset: unset };
 
   // get original document from database
   let document = collection.findOne(documentId);
 
   // if document is not trusted, run validation steps
   if (validate) {
-
     // validate modifiers
-    collection.simpleSchema().validate({$set: set, $unset: unset}, { modifier: true });
+    collection
+      .simpleSchema()
+      .validate({ $set: set, $unset: unset }, { modifier: true });
 
     // check that the current user has permission to edit each field
     const modifiedProperties = _.keys(set).concat(_.keys(unset));
-    modifiedProperties.forEach(function (fieldName) {
+    modifiedProperties.forEach(function(fieldName) {
       var field = schema[fieldName];
       if (!field || !context.Users.canEditField(currentUser, field, document)) {
-        throw new Error(Utils.encodeIntlError({id: 'app.disallowed_property_detected', value: fieldName}));
+        throw new Error(
+          Utils.encodeIntlError({
+            id: "app.disallowed_property_detected",
+            value: fieldName,
+          }),
+        );
       }
     });
 
     // run validation callbacks
-    modifier = runCallbacks(`${collectionName}.edit.validate`, modifier, document, currentUser);
+    modifier = runCallbacks(
+      `${collectionName}.edit.validate`,
+      modifier,
+      document,
+      currentUser,
+    );
   }
 
   // run onEdit step
   _.keys(schema).forEach(fieldName => {
-
     if (schema[fieldName].onEdit) {
-      const autoValue = schema[fieldName].onEdit(modifier, document, currentUser);
-      if (typeof autoValue !== 'undefined') {
+      const autoValue = schema[fieldName].onEdit(
+        modifier,
+        document,
+        currentUser,
+      );
+      if (typeof autoValue !== "undefined") {
         if (autoValue === null) {
           // if any autoValue returns null, then unset the field
           modifier.$unset[fieldName] = true;
@@ -151,7 +182,12 @@ export const editMutation = ({ collection, documentId, set, unset, currentUser, 
   });
 
   // run sync callbacks (on mongo modifier)
-  modifier = runCallbacks(`${collectionName}.edit.sync`, modifier, document, currentUser);
+  modifier = runCallbacks(
+    `${collectionName}.edit.sync`,
+    modifier,
+    document,
+    currentUser,
+  );
 
   // remove empty modifiers
   if (_.isEmpty(modifier.$set)) {
@@ -160,9 +196,9 @@ export const editMutation = ({ collection, documentId, set, unset, currentUser, 
   if (_.isEmpty(modifier.$unset)) {
     delete modifier.$unset;
   }
-  
+
   // update document
-  collection.update(documentId, modifier, {removeEmptyStrings: false});
+  collection.update(documentId, modifier, { removeEmptyStrings: false });
 
   // get fresh copy of document from db
   const newDocument = collection.findOne(documentId);
@@ -173,21 +209,24 @@ export const editMutation = ({ collection, documentId, set, unset, currentUser, 
   }
 
   // run async callbacks
-  runCallbacksAsync(`${collectionName}.edit.async`, newDocument, document, currentUser, collection);
-
-  // console.log("// edit mutation finished")
-  // console.log(modifier)
-  // console.log(newDocument)
+  runCallbacksAsync(
+    `${collectionName}.edit.async`,
+    newDocument,
+    document,
+    currentUser,
+    collection,
+  );
 
   return newDocument;
-}
+};
 
-export const removeMutation = ({ collection, documentId, currentUser, validate, context }) => {
-
-  // console.log("// removeMutation")
-  // console.log(collection._name)
-  // console.log(documentId)
-
+export const removeMutation = ({
+  collection,
+  documentId,
+  currentUser,
+  validate,
+  context,
+}) => {
   const collectionName = collection._name;
   const schema = collection.simpleSchema()._schema;
 
@@ -195,7 +234,11 @@ export const removeMutation = ({ collection, documentId, currentUser, validate, 
 
   // if document is not trusted, run validation callbacks
   if (validate) {
-    document = runCallbacks(`${collectionName}.remove.validate`, document, currentUser);
+    document = runCallbacks(
+      `${collectionName}.remove.validate`,
+      document,
+      currentUser,
+    );
   }
 
   // run onRemove step
@@ -214,7 +257,12 @@ export const removeMutation = ({ collection, documentId, currentUser, validate, 
     collection.loader.clear(documentId);
   }
 
-  runCallbacksAsync(`${collectionName}.remove.async`, document, currentUser, collection);
+  runCallbacksAsync(
+    `${collectionName}.remove.async`,
+    document,
+    currentUser,
+    collection,
+  );
 
   return document;
-}
+};

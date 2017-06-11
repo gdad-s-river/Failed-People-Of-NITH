@@ -2,6 +2,8 @@ import Users from 'meteor/vulcan:users';
 import SimpleSchema from 'simpl-schema';
 import { Utils } from 'meteor/vulcan:lib';
 
+// also being repeated in nith:flagging
+// put it in Utils 
 function addUserFields(fieldSchemaMapping){
   for(let key in fieldSchemaMapping) {
     if (fieldSchemaMapping.hasOwnProperty(key)) {
@@ -193,10 +195,8 @@ let fieldSchemaMapping = {
       return undefined;
     }
     // unique: true // note: find a way to fix duplicate accounts before enabling this
-  },
-
-
-    
+  }
+  // } 
 }
 
 addUserFields(fieldSchemaMapping);
