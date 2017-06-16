@@ -1,21 +1,89 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -24,8 +92,17 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
 body {
@@ -37,8 +114,7 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before, blockquote:after, q:before, q:after {
 	content: '';
 	content: none;
 }
@@ -47,69 +123,76 @@ table {
 	border-spacing: 0;
 }
 
-
 /*
   either put this in another file
   or rename this file
 */
 
 .accounts-ui .buttons a {
-  display: none;
+	display: none;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html, body {
-  width: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 html {
-  height: 100%;
+	height: 100%;
 }
 
 body {
-  min-height: 100%;
+	min-height: 100%;
 }
 
 #react-app {
-  height: 100%;
+	height: 100%;
 }
 
-
 .users-load-more {
-  background: #5cd9d9;
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  padding: 10px;
-  text-align: center;
-  padding: 18px;
-  transform: translateY(12px);
+	background: #5cd9d9;
+	display: block;
+	color: inherit;
+	text-decoration: none;
+	padding: 10px;
+	text-align: center;
+	padding: 18px;
+	transform: translateY(12px);
 }
 
 @media screen and (min-width: 600px) {
-  .users-load-more {
-/*    left: 32%;
+	.users-load-more {
+		/*    left: 32%;
     display: inline;
     position: relative;
     top: 34px;*/
-  }
+	}
 }
-
 
 .users-no-more {
-  position: relative;
-  top: 23px;
-  color: inherit;
-  text-decoration: none;
-  left: 39%;
+	position: relative;
+	top: 23px;
+	color: inherit;
+	text-decoration: none;
+	left: 39%;
 }
-
 
 /* edit account styles */
 
 .document-edit .form-section .control-label {
-  padding: 0 0 12px 0;
+	padding: 0 0 12px 0;
+}
+
+.users-check-wrapper main > .i18n-message {
+	font-size: 2rem;
+}
+
+@media screen and (min-width: 45em) {
+	.users-check-wrapper main > .i18n-message:first-child {
+		margin: 0 0 30px 0;
+	}
 }
