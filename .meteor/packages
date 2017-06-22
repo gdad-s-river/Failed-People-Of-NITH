@@ -8,6 +8,7 @@ vulcan:core
 # ------Vulcan Components ------------
 # vulcan:base-components
 vulcan:forms
+vulcan:admin
 #-------------------------------------
 
 # --------------Language--------------

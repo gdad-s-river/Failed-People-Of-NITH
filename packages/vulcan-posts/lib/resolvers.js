@@ -1,6 +1,17 @@
 import { addGraphQLResolvers, Utils } from 'meteor/vulcan:core';
 
 const specificResolvers = {
+  User: {
+    async posts(user, args, { currentUser, Users, Posts }) {
+      const posts = Posts.find({userId: user._id}).fetch();
+
+      // restrict documents fields
+      const viewablePosts = _.filter(posts, post => Posts.checkAccess(currentUser, post));
+      const restrictedPosts = Users.restrictViewableFields(currentUser, Posts, viewablePosts);
+    
+      return restrictedPosts;
+    }
+  },
   Post: {
     async user(post, args, context) {
       if (!post.userId) return null;
@@ -27,7 +38,6 @@ const resolvers = {
 
       // get selector and options from terms and perform Mongo query
       let {selector, options} = Posts.getParameters(terms);
-      options.limit = (terms.limit < 1 || terms.limit > 100) ? 100 : terms.limit;
       options.skip = terms.offset;
       const posts = Posts.find(selector, options).fetch();
 
