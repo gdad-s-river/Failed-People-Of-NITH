@@ -253,7 +253,7 @@ class Search extends Component {
 
 		const selectStyles = {
 			height: "calc(2.5rem - 2px)",
-			width: "42%",
+			width: "200px",
 			padding: ".5rem .75rem",
 			fontSize: "1rem",
 			lineHeight: "1.25",
@@ -264,6 +264,11 @@ class Search extends Component {
 			border: "1px solid rgba(0,0,0,.15)",
 			borderRadius: ".25rem",
 			margin: "3px 0",
+      position: "absolute",
+      top: "0px",
+      left: "30%",
+      transform: "translateX(-78px)",
+
 			// "@media(minWidth: 600px)": {
 			//   width: "30%"
 			// }
@@ -273,9 +278,14 @@ class Search extends Component {
 			margin: "20px 0 0",
 		};
 
-		const mediaSelectStyles = {
-			width: "30%",
-		};
+    const lowerSelectStyles = {
+      top: "45px",
+    }
+
+    const mobileStyles = {
+      left: "50%",
+      transform: "translateX(-95px)"
+    }
 
 		const resetQuery = _.clone(this.props.location.query);
 		delete resetQuery.query;
@@ -336,7 +346,6 @@ class Search extends Component {
 													style={{
 														...selectStyles,
 														...upperSelectStyles,
-														...mediaSelectStyles,
 													}}
 												/>
 
@@ -345,7 +354,7 @@ class Search extends Component {
 													options={buildYears()}
 													value={this.state.selectedYear}
 													onChange={this.yearSelectOnChangeHandler}
-													style={{ ...selectStyles, ...mediaSelectStyles }}
+													style={{ ...selectStyles, ...lowerSelectStyles }}
 												/>
 											</div>
 										: <div>
@@ -354,7 +363,7 @@ class Search extends Component {
 													options={buildBranches()}
 													value={this.state.selectedBranch}
 													onChange={this.branchSelectOnChangeHandler}
-													style={{ ...selectStyles, ...upperSelectStyles }}
+													style={{ ...selectStyles, ...upperSelectStyles, ...mobileStyles }}
 												/>
 
 												<Select
@@ -362,81 +371,83 @@ class Search extends Component {
 													options={buildYears()}
 													value={this.state.selectedYear}
 													onChange={this.yearSelectOnChangeHandler}
-													style={selectStyles}
+													style={{...selectStyles, ...lowerSelectStyles, ...mobileStyles}}
 												/>
 											</div>}
 							</Media>
 						</div>
 
-						<button
-							name="reset-branch-query"
-							style={{ ...buttonStyles, ...leftButtonStyles }}
-							onClick={e => {
-								// console.log(e.target)
-								this.setState({ selectedBranch: "" });
-								// const query = this.props.router.location.query.query;
+            <div className="rest-button-containers" style={{margin: "90px 0 0"}}>
+  					  <button
+  							name="reset-branch-query"
+  							style={{ ...buttonStyles, ...leftButtonStyles }}
+  							onClick={e => {
+  								// console.log(e.target)
+  								this.setState({ selectedBranch: "" });
+  								// const query = this.props.router.location.query.query;
 
-								const { branch, ...rest } = this.props.router.location.query;
+  								const { branch, ...rest } = this.props.router.location.query;
 
-								// console.log({pathname: "/search", query: {query} });
-								// console.log(this.props.router.location.query.query);
-								this.props.router.replace({
-									pathname: "/search",
-									query: {
-										query: rest["query"],
-										graduatingYear: rest["graduatingYear"],
-									},
-								});
-							}}
-						>
-							Reset Branch
-						</button>
+  								// console.log({pathname: "/search", query: {query} });
+  								// console.log(this.props.router.location.query.query);
+  								this.props.router.replace({
+  									pathname: "/search",
+  									query: {
+  										query: rest["query"],
+  										graduatingYear: rest["graduatingYear"],
+  									},
+  								});
+  							}}
+  						>
+  							Reset Branch
+  						</button>
 
-						<button
-							name="reset-year-query"
-							style={buttonStyles}
-							onClick={e => {
-								// console.log(e.target)
-								this.setState({ selectedYear: "" });
-								// const query = this.props.router.location.query.query;
+  						<button
+  							name="reset-year-query"
+  							style={buttonStyles}
+  							onClick={e => {
+  								// console.log(e.target)
+  								this.setState({ selectedYear: "" });
+  								// const query = this.props.router.location.query.query;
 
-								// console.log("location query ", this.props.router.location.query);
-								const {
-									graduatingYear,
-									...rest
-								} = this.props.router.location.query;
+  								// console.log("location query ", this.props.router.location.query);
+  								const {
+  									graduatingYear,
+  									...rest
+  								} = this.props.router.location.query;
 
-								// console.log("rest", rest);
-								let keys = Object.keys(rest);
+  								// console.log("rest", rest);
+  								let keys = Object.keys(rest);
 
-								let queryObj = keys.map(el => {
-									return {
-										[el]: rest[el],
-									};
-								});
+  								let queryObj = keys.map(el => {
+  									return {
+  										[el]: rest[el],
+  									};
+  								});
 
-								// console.log(queryObj);
+  								// console.log(queryObj);
 
-								// let pushValue = _.extend({}, {
-								//     pathname: "/search",
-								//   },
-								//   {branch: {branch: rest["branch"]}},
-								//   {query: {query: rest["query"]}}
-								//   )
+  								// let pushValue = _.extend({}, {
+  								//     pathname: "/search",
+  								//   },
+  								//   {branch: {branch: rest["branch"]}},
+  								//   {query: {query: rest["query"]}}
+  								//   )
 
-								// console.log(pushValue);
+  								// console.log(pushValue);
 
-								this.props.router.push({
-									pathname: "/search",
-									query: {
-										query: rest["query"],
-										branch: rest["branch"],
-									},
-								});
-							}}
-						>
-							Reset Year
-						</button>
+  								this.props.router.push({
+  									pathname: "/search",
+  									query: {
+  										query: rest["query"],
+  										branch: rest["branch"],
+  									},
+  								});
+  							}}
+  						>
+  							Reset Year
+  						</button>
+            </div>
 					</div>
 
 					<BorderAnimeSpan className="border-bottom-anime" />

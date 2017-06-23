@@ -4,7 +4,7 @@ import glamorous from 'glamorous';
 
 const LinkBare = glamorous(Link)({
   color: "inherit",
-  textDecoration: "none"
+  textDecoration: "none!important"
 })
 
 export default LinkBare;
