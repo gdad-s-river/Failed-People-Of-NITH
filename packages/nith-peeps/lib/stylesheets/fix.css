@@ -149,7 +149,7 @@ body {
 	min-height: 100%;
 }
 
-#react-app {
+#react-app, #react-app > div:first-child {
 	height: 100%;
 }
 
